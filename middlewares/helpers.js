@@ -13,6 +13,13 @@ const helpers = {
         mongoRequests.saveWord(word, function (result) {
             next(result);
         })
+    },
+
+    deleteWord : function (req, next) {
+        var word = req.body.english;
+        mongoRequests.deleteWord(word, function(result) {
+            next(result);
+        })
     }
 };
 

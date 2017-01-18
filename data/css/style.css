@@ -1,0 +1,4 @@
+#words table td i:hover {
+    color: #e53935;
+    cursor: pointer;
+}
