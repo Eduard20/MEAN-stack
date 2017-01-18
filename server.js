@@ -10,8 +10,7 @@ process.env.NODE_ENV = platformConfigs.mode;
 
 // MongoDB
 
-// var dbURI = 'mongodb://edodb:omega2020@ds013564.mlab.com:13564/heroku_qwz21fc2';
-var dbURI = 'mongodb://heroku_wordsrepeat:omega2020@ds117869.mlab.com:17869/heroku_zjg0ks1t';
+var dbURI = 'mongodb://edodb:omega2020@ds013564.mlab.com:13564/heroku_qwz21fc2';
 mongoose.connect(dbURI);
 mongoose.connection.on("connected", function () {console.log("Mongo default connection open")});
 mongoose.connection.on("error", function (err)  {console.log("Mongo default connection error: " + err)});
