@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="mainModule">
+  <head>
+    <meta charset="utf-8">
+    <title>Words Repeat</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./css/materialize.min.css">
+  </head>
+  <body ng-controller="mainCtrl">
+  <div class="row">
+    <form class="col s12" name="addForm">
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="english" type="text" class="validate" ng-model="english" required>
+          <label for="english">English</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="translation" type="text" class="validate" ng-model="translation" required>
+          <label for="translation">translation</label>
+        </div>
+      </div>
+      <div class="input-field">
+        <a class="waves-effect waves-light btn" ng-disabled="addForm.$invalid" ng-click="addWord(english, translation)"><i class="material-icons right">cloud</i>button</a>
+      </div>
+    </form>
+  </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="js/lib/materialize.min.js"></script>
+  <script type="text/javascript" src="js/lib/angular.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>
+<script>
+    $(document).ready(function() {
+        Materialize.updateTextFields();
+    });
+</script>
