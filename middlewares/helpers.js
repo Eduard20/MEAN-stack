@@ -1,8 +1,6 @@
 
-const mongoRequests = require("../dbRequests/mongoRequests");
 const moment = require("moment");
-const jwt = require("jsonwebtoken");
-const platformConfigs = require("../config/config");
+const mongoRequests = require("../dbRequests/mongoRequests");
 
 const helpers = {
 
@@ -25,11 +23,10 @@ const helpers = {
         })
     },
 
-    generateToken : function (data) {
-        var token = jwt.sign({
-            username : data.username
-        }, platformConfigs.jwtSecret);
-        return token;
+    getAllWords : function (next) {
+        mongoRequests.getAllWords(function(result) {
+            next(result)
+        })
     }
 
 };

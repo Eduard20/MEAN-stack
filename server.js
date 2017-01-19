@@ -5,7 +5,8 @@ var mongoose = require("mongoose");
 var platformConfigs = require('./config/config');
 var port = platformConfigs.port;
 var app = express();
-
+var helpers = require("./middlewares/helpers");
+var routes = require("./routes/routes");
 process.env.NODE_ENV = platformConfigs.mode;
 
 // MongoDB
@@ -16,13 +17,11 @@ mongoose.connect(dbURI);
 mongoose.connection.on("connected", function () {console.log("Mongo default connection open")});
 mongoose.connection.on("error", function (err)  {console.log("Mongo default connection error: " + err)});
 mongoose.connection.on("disconnected", function () {console.log("Mongo default connection disconnected")});
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/data'));
-
-require('./routes/routes')(app);
+app.use("/", routes);
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

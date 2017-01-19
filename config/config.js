@@ -1,6 +1,6 @@
 
 module.exports = {
-    port: parseInt(process.env.PORT) || 3000,
+    port: parseInt(process.env.PORT) || 8000,
     mode: 'development',
     mongoConf: {
         url: "mongodb://localhost/words",
