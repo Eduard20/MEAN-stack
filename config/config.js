@@ -11,5 +11,6 @@ module.exports = {
                 reconnectInterval : 5000
             }
         }
-    }
+    },
+    jwtSecret: "ewvew327fv439@77fveh00@#cvegc"
 };

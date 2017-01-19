@@ -1,6 +1,6 @@
 
-var helperFunction = require("../middlewares/helpers");
 var mongoRequests = require("../dbRequests/mongoRequests");
+var helperFunction = require("../middlewares/helpers");
 
 module.exports = function(app) {
     app.get('/', function (req, res) {
@@ -27,5 +27,23 @@ module.exports = function(app) {
         helperFunction.deleteWord(req, function(next) {
             res.send(next);
         })
-    })
+    });
+    app.post("/login", function (req, res) {
+        if (undefined != req.body.username) {
+            mongoRequests.login(req, function (next) {
+                res.send(next);
+            })
+        } else {
+            res.send({error : true, message : "Username is not provided"});
+        }
+    });
+    app.post("/register", function (req, res) {
+        if (undefined != req.body.username) {
+            mongoRequests.register(req, function (next) {
+                res.send(next);
+            })
+        } else {
+            res.send({error : true, message : "Username is not provided"});
+        }
+    });
 };
