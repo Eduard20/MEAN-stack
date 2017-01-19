@@ -1,13 +1,13 @@
 app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cookies',
     function ($scope, $rootScope, $http, $timeout, $cookies) {
-        $scope.isLogged = false;
+        $rootScope.isLogged = false;
         $scope.disableSearch = true;
         $scope.monthlyQuantity = 100;
         $scope.formData = [];
         $scope.allWords = [];
         $scope.userInfo = {};
         $rootScope.getUserInfo(function(data){
-            (!data.error) ? $scope.isLogged = true : $scope.isLogged = false;
+            (!data.error) ? $rootScope.isLogged = true : $rootScope.isLogged = false;
         });
         $scope.register = function (username, password, language) {
             var Data = {
@@ -42,7 +42,6 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                     $cookies.put('token', token);
                     $scope.isLogged = true;
                     $scope.userInfo = data.message;
-                    console.log($scope.userInfo);
                 } else {
                     $scope.message = data.message;
                     $timeout(function () {

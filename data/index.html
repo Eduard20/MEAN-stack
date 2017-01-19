@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="wordsApp">
+<html ng-app="wordsApp" ng-controller="mainCtrl">
   <head>
     <meta charset="utf-8">
     <title>Words Repeat</title>
@@ -7,217 +7,208 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./css/materialize.min.css">
     <link rel="stylesheet" href="./css/style.css">
-  </head>
-  <body ng-controller="mainCtrl">
-    <div ng-show="isLogged">
-      <div class="center" style="font-size:20px">
-        <p>Words for this month <span class="green-text">{{allWords.length}}</span>/{{monthlyQuantity}}</p>
-      </div>
-      <div class="row" id="words">
-        <div class="col s12 m6 ">
-          <div class="col s12">
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Add new word</span>
-                <form name="addForm">
-                  <div class="row">
-                    <div class="input-field col s6">
-                      <input id="english" type="text" class="validate" ng-model="english" required>
-                      <label for="english">English</label>
-                    </div>
-                    <div class="input-field col s6">
-                      <input id="translation" type="text" class="validate" ng-model="translation" required>
-                      <label for="translation">translation</label>
-                    </div>
-                  </div>
-                  <div class="input-field">
-                    <a class="waves-effect waves-light btn" ng-disabled="addForm.$invalid" ng-click="addWord(english, translation)"><i class="material-icons right">add</i>Add</a>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="col s12">
-            <div class="card teal darken-3">
-              <div class="card-content white-text">
-                <span class="card-title">Search a word</span>
-                <div class="row">
-                  <p class="red-text lighten-2">{{message}}</p>
-                  <div class="input-field col s10">
-                    <input type="text" id="search" ng-model="word" ng-change="enableSearch(word)">
-                    <label for=search>Search</label>
-                  </div>
-                  <div class="input-field col s2">
-                    <a class="btn-floating btn-small waves-effect waves-light red" ng-click="searchWord(word)" ng-disabled="disableSearch">
-                      <i class="material-icons">search</i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div ng-if="searchData" class="white-text">
-                <div class="row">
-                  <table class="centered">
-                    <thead>
-                    <tr>
-                      <th data-field="id">English</th>
-                      <th data-field="name">Translation</th>
-                      <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="word in searchData | orderBy:'-time'">
-                      <td>{{word.english}}</td>
-                      <td>{{word.translation}}</td>
-                      <td>
-                        <a class="btn-floating btn-small waves-effect waves-light red" ng-click="deleteFromSearch(word)"><i class="material-icons">delete</i></a>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-          <div class="col s12 m6">
-            <div class="col s12">
-              <div class="card cyan darken-2">
-                <div class="card-content white-text">
-                  <span class="card-title">10 latest words</span>
-                  <table class="centered">
-                    <thead>
-                    <tr>
-                      <th data-field="id">English</th>
-                      <th data-field="name">Translation</th>
-                      <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="word in allWords | orderBy:'-time'">
-                      <td>{{word.english}}</td>
-                      <td>{{word.translation}}</td>
-                      <td>
-                        <a class="btn-floating btn-small waves-effect waves-light red" ng-click="deleteWord(word)"><i class="material-icons">delete</i></a>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-    <div class="container" ng-show="!isLogged">
-      <div class="row">
-          <div class="col s12">
-            <ul class="tabs">
-              <li class="tab col s6"><a href="#login" class="active" >Login</a></li>
-              <li class="tab col s6"><a href="#register">Register</a></li>
-            </ul>
-          </div>
-          <div id="login" class="col s12">
-            <div class="col s12 m6 offset-m3 login-panel">
-              <div class="card white">
-                <div class="card-content">
-                  <span class="card-title teal-text lighten-1">Login</span>
-                  <div class="row">
-                    <form class="col s12 grey-text" name="loginForm">
-                      <div class="row">
-                        <div class="input-field col s12">
-                          <input id="username" type="email" class="validate" required name="username" ng-model="username">
-                          <label for="username">Username</label>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="input-field col s12">
-                          <input id="password" type="password" class="validate" required="" name="password" ng-model="password">
-                          <label for="password">Password</label>
-                        </div>
-                      </div>
-                      <p class="red-text text-darken-2 ng-binding">{{message}}</p>
-                      <div class="row">
-                        <div class="input-field col s10 m10 l6">
-                          <button class="btn waves-effect waves-light" type="submit" ng-click="login(username, password)" ng-disabled="loginForm.$invalid" disabled="disabled">Login
-                            <i class="material-icons right">send</i>
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="register" class="col s12">
-            <div class="col s12 m6 offset-m3 login-panel">
-              <div class="card white">
-                <div class="card-content">
-                  <span class="card-title teal-text lighten-1">Register</span>
-                  <div class="row">
-                    <form class="col s12 grey-text" name="registerForm">
-                      <div class="row">
-                        <div class="input-field col s12">
-                          <input id="username" type="email" class="validate" required name="username" ng-model="username">
-                          <label for="username">Username</label>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="input-field col s12">
-                          <input id="password" type="password" class="validate" required="" name="password" ng-model="password">
-                          <label for="password">Password</label>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="input-field col s12">
-                          <select ng-model="language" required>
-                            <option value="" disabled selected>Choose language</option>
-                            <option value="1">English</option>
-                          </select>
-                          <label>Language</label>
-                        </div>
-                      </div>
-                      <p class="red-text text-darken-2">{{message}}</p>
-                      <div class="row">
-                        <div class="input-field col s10 m10 l6">
-                          <button class="btn waves-effect waves-light" type="submit" ng-click="register(username, password, language)" ng-disabled="registerForm.$invalid" disabled="disabled">Register
-                            <i class="material-icons right">send</i>
-                          </button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        <div id="modal1" class="modal">
-          <div class="modal-content">
-            <h4>Congrats</h4>
-            <p>You have been successfully registered</p>
-            <p>Please login</p>
-          </div>
-          <div class="modal-footer">
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script type="text/javascript" src="js/lib/materialize.min.js"></script>
-  <script type="text/javascript" src="js/lib/angular.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="js/lib/materialize.min.js"></script>
+    <script type="text/javascript" src="js/lib/angular.min.js"></script>
     <script type="text/javascript" src="js/lib/angular-cookies.js"></script>
     <script type="text/javascript" src="js/lib/angular-route.min.js"></script>
     <script type="text/javascript" src="js/lib/angular-sanitize.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
-  </body>
+    <script type="text/javascript" src="js/main.js"></script>
+  </head>
+  <body ng-include="isLogged && './html/index.html' || './html/login.html'"></body>
 </html>
-<script>
-    $(document).ready(function() {
-        Materialize.updateTextFields();
-        $('select').material_select();
-        $('ul.tabs').tabs();
-        $('.modal').modal();
-    });
-</script>
+<!--<div ng-show="isLogged">-->
+    <!--<div class="center" style="font-size:20px">-->
+        <!--<p>Words for this month <span class="green-text">{{allWords.length}}</span>/{{monthlyQuantity}}</p>-->
+    <!--</div>-->
+    <!--<div class="row" id="words">-->
+        <!--<div class="col s12 m6 ">-->
+            <!--<div class="col s12">-->
+                <!--<div class="card blue-grey darken-1">-->
+                    <!--<div class="card-content white-text">-->
+                        <!--<span class="card-title">Add new word</span>-->
+                        <!--<form name="addForm">-->
+                            <!--<div class="row">-->
+                                <!--<div class="input-field col s6">-->
+                                    <!--<input id="english" type="text" class="validate" ng-model="english" required>-->
+                                    <!--<label for="english">English</label>-->
+                                <!--</div>-->
+                                <!--<div class="input-field col s6">-->
+                                    <!--<input id="translation" type="text" class="validate" ng-model="translation" required>-->
+                                    <!--<label for="translation">translation</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="input-field">-->
+                                <!--<a class="waves-effect waves-light btn" ng-disabled="addForm.$invalid" ng-click="addWord(english, translation)"><i class="material-icons right">add</i>Add</a>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col s12">-->
+                <!--<div class="card teal darken-3">-->
+                    <!--<div class="card-content white-text">-->
+                        <!--<span class="card-title">Search a word</span>-->
+                        <!--<div class="row">-->
+                            <!--<p class="red-text lighten-2">{{message}}</p>-->
+                            <!--<div class="input-field col s10">-->
+                                <!--<input type="text" id="search" ng-model="word" ng-change="enableSearch(word)">-->
+                                <!--<label for=search>Search</label>-->
+                            <!--</div>-->
+                            <!--<div class="input-field col s2">-->
+                                <!--<a class="btn-floating btn-small waves-effect waves-light red" ng-click="searchWord(word)" ng-disabled="disableSearch">-->
+                                    <!--<i class="material-icons">search</i>-->
+                                <!--</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div ng-if="searchData" class="white-text">-->
+                        <!--<div class="row">-->
+                            <!--<table class="centered">-->
+                                <!--<thead>-->
+                                <!--<tr>-->
+                                    <!--<th data-field="id">English</th>-->
+                                    <!--<th data-field="name">Translation</th>-->
+                                    <!--<th></th>-->
+                                <!--</tr>-->
+                                <!--</thead>-->
+                                <!--<tbody>-->
+                                <!--<tr ng-repeat="word in searchData | orderBy:'-time'">-->
+                                    <!--<td>{{word.english}}</td>-->
+                                    <!--<td>{{word.translation}}</td>-->
+                                    <!--<td>-->
+                                        <!--<a class="btn-floating btn-small waves-effect waves-light red" ng-click="deleteFromSearch(word)"><i class="material-icons">delete</i></a>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col s12 m6">-->
+            <!--<div class="col s12">-->
+                <!--<div class="card cyan darken-2">-->
+                    <!--<div class="card-content white-text">-->
+                        <!--<span class="card-title">10 latest words</span>-->
+                        <!--<table class="centered">-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                                <!--<th data-field="id">English</th>-->
+                                <!--<th data-field="name">Translation</th>-->
+                                <!--<th></th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--<tr ng-repeat="word in allWords | orderBy:'-time'">-->
+                                <!--<td>{{word.english}}</td>-->
+                                <!--<td>{{word.translation}}</td>-->
+                                <!--<td>-->
+                                    <!--<a class="btn-floating btn-small waves-effect waves-light red" ng-click="deleteWord(word)"><i class="material-icons">delete</i></a>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="container" ng-show="!isLogged">-->
+    <!--<div class="row">-->
+        <!--<div class="col s12">-->
+            <!--<ul class="tabs">-->
+                <!--<li class="tab col s6"><a href="#login" class="active" >Login</a></li>-->
+                <!--<li class="tab col s6"><a href="#register">Register</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<div id="login" class="col s12">-->
+            <!--<div class="col s12 m6 offset-m3 login-panel">-->
+                <!--<div class="card white">-->
+                    <!--<div class="card-content">-->
+                        <!--<span class="card-title teal-text lighten-1">Login</span>-->
+                        <!--<div class="row">-->
+                            <!--<form class="col s12 grey-text" name="loginForm">-->
+                                <!--<div class="row">-->
+                                    <!--<div class="input-field col s12">-->
+                                        <!--<input id="username" type="email" class="validate" required name="username" ng-model="username">-->
+                                        <!--<label for="username">Username</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="row">-->
+                                    <!--<div class="input-field col s12">-->
+                                        <!--<input id="password" type="password" class="validate" required="" name="password" ng-model="password">-->
+                                        <!--<label for="password">Password</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<p class="red-text text-darken-2 ng-binding">{{message}}</p>-->
+                                <!--<div class="row">-->
+                                    <!--<div class="input-field col s10 m10 l6">-->
+                                        <!--<button class="btn waves-effect waves-light" type="submit" ng-click="login(username, password)" ng-disabled="loginForm.$invalid" disabled="disabled">Login-->
+                                            <!--<i class="material-icons right">send</i>-->
+                                        <!--</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</form>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div id="register" class="col s12">-->
+            <!--<div class="col s12 m6 offset-m3 login-panel">-->
+                <!--<div class="card white">-->
+                    <!--<div class="card-content">-->
+                        <!--<span class="card-title teal-text lighten-1">Register</span>-->
+                        <!--<div class="row">-->
+                            <!--<form class="col s12 grey-text" name="registerForm">-->
+                                <!--<div class="row">-->
+                                    <!--<div class="input-field col s12">-->
+                                        <!--<input id="username" type="email" class="validate" required name="username" ng-model="username">-->
+                                        <!--<label for="username">Username</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="row">-->
+                                    <!--<div class="input-field col s12">-->
+                                        <!--<input id="password" type="password" class="validate" required="" name="password" ng-model="password">-->
+                                        <!--<label for="password">Password</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="row">-->
+                                    <!--<div class="input-field col s12">-->
+                                        <!--<select ng-model="language" required>-->
+                                            <!--<option value="" disabled selected>Choose language</option>-->
+                                            <!--<option value="1">English</option>-->
+                                        <!--</select>-->
+                                        <!--<label>Language</label>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<p class="red-text text-darken-2">{{message}}</p>-->
+                                <!--<div class="row">-->
+                                    <!--<div class="input-field col s10 m10 l6">-->
+                                        <!--<button class="btn waves-effect waves-light" type="submit" ng-click="register(username, password, language)" ng-disabled="registerForm.$invalid" disabled="disabled">Register-->
+                                            <!--<i class="material-icons right">send</i>-->
+                                        <!--</button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</form>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div id="modal1" class="modal">-->
+            <!--<div class="modal-content">-->
+                <!--<h4>Congrats</h4>-->
+                <!--<p>You have been successfully registered</p>-->
+                <!--<p>Please login</p>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

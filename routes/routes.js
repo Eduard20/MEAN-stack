@@ -2,15 +2,14 @@
 var helperFunction = require("../middlewares/helpers");
 var mongoRequests = require("../dbRequests/mongoRequests");
 const express = require("express");
+const fs = require("fs");
 const router = express.Router();
 
     router.get('/', function (req, res) {
-        fs.readFile('./data/index.html', function (err, html) {
+        res.render('../data/index.html', function (err) {
             if (err) {
                 throw err;
             }
-            res.writeHeader(200, {"Content-Type": "text/html"});
-            res.write(html);
             res.end();
         });
     });
