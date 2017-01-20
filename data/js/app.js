@@ -2,12 +2,12 @@ var app = angular.module('wordsApp', ['ngRoute', 'ngSanitize', 'ngCookies']);
 
 app.config(['$routeProvider', '$locationProvider', '$httpProvider',
     function ($routeProvider, $locationProvider, $httpProvider) {
-        // $routeProvider
-            // .when("/", {
-            //     templateUrl: '/index.html',
-            //     controller: 'mai'
-            // })
-            // .otherwise({ redirectTo: '/' });
+        $routeProvider
+            .when("/", {
+                templateUrl: '../html/main.html',
+                controller: 'homeCtrl'
+            })
+            .otherwise({ redirectTo: '/' });
 
         $httpProvider.interceptors.push(['$q', '$location', '$cookies', '$rootScope', function($q, $location, $cookies, $rootScope) {
             return {

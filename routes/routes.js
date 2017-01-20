@@ -2,31 +2,24 @@
 var helperFunction = require("../middlewares/helpers");
 var mongoRequests = require("../dbRequests/mongoRequests");
 const express = require("express");
+const fs = require("fs");
 const router = express.Router();
 
-    router.get('/', function (req, res) {
-        res.render('../data/index.html', function (err) {
-            if (err) {
-                throw err;
-            }
-            res.end();
-        });
-    });
-    router.post("/addWord", function (req, res) {
-        helperFunction.saveWordInMongo(req, function(next) {
-            res.send(next);
-        })
-    });
-    router.get("/getWords", function (req, res) {
-        mongoRequests.getWords(function(next) {
-            res.send(next);
-        })
-    });
-    router.post("/deleteWord", function (req, res) {
-        helperFunction.deleteWord(req, function(next) {
-            res.send(next);
-        })
-    });
+    // router.post("/addWord", function (req, res) {
+    //     helperFunction.saveWordInMongo(req, function(next) {
+    //         res.send(next);
+    //     })
+    // });
+    // router.get("/getWords", function (req, res) {
+    //     mongoRequests.getWords(function(next) {
+    //         res.send(next);
+    //     })
+    // });
+    // router.post("/deleteWord", function (req, res) {
+    //     helperFunction.deleteWord(req, function(next) {
+    //         res.send(next);
+    //     })
+    // });
     router.post("/login", function (req, res) {
         if (undefined != req.body.username) {
             mongoRequests.login(req, function (next) {
@@ -63,4 +56,23 @@ const router = express.Router();
             res.send({error : true, message : "Word is not provided"});
         }
     });
+
+    router.post("/api/add", function (req, res) {
+        helperFunction.add(req, function (next) {
+            res.send(next);
+        })
+    });
+
+    router.post("/api/delete", function (req, res) {
+        helperFunction.delete(req, function (next) {
+            res.send(next);
+        })
+    });
+    router.get("/api/getWord", function (req, res) {
+        helperFunction.getWord(req, function (next) {
+            res.send(next);
+        })
+    });
+
+
 module.exports = router;

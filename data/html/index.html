@@ -1,132 +1,26 @@
-<div>
-    <div class="center" style="font-size:20px">
-        <p>Words for this month <span class="green-text">{{allWords.length}}</span>/{{monthlyQuantity}}</p>
+
+<nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo right" ng-click="logout()">Logout</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><a href="sass.html">Home</a></li>
+            <li><a href="badges.html">Components</a></li>
+            <li><a href="collapsible.html">JavaScript</a></li>
+        </ul>
     </div>
-    <div class="row" id="words">
-        <div class="col s12 m6">
-            <div class="col s12">
-                <ul class="collapsible blue-grey darken-1 card" data-collapsible="accordion">
-                    <li class="card-content">
-                        <div class="collapsible-header blue-grey darken-1 white-text active card-title">Add new word<i class="material-icons right">keyboard_arrow_down</i></div>
-                        <div class="collapsible-body">
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <form name="addForm">
-                                                <div class="row">
-                                                    <div class="input-field col s6">
-                                                        <input id="english" type="text" class="validate" ng-model="english" required>
-                                                        <label for="english">English</label>
-                                                    </div>
-                                                    <div class="input-field col s6">
-                                                        <input id="translation" type="text" class="validate" ng-model="translation" required>
-                                                        <label for="translation">translation</label>
-                                                    </div>
-                                                </div>
-                                                <div class="input-field">
-                                                    <a class="waves-effect waves-light btn" ng-disabled="addForm.$invalid" ng-click="addWord(english, translation)"><i class="material-icons right">add</i>Add</a>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col s12" id="searchWords">
-                <ul class="collapsible teal darken-3 card" data-collapsible="accordion">
-                    <li class="card-content">
-                        <div class="collapsible-header teal darken-3 white-text active card-title">Search word<i class="material-icons right">keyboard_arrow_down</i></div>
-                        <div class="collapsible-body">
-                            <div class="row">
-                                <div class="col s12">
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <div class="row">
-                                                <div class="input-field col s10">
-                                                    <input type="text" id="search" ng-model="word" ng-change="enableSearch(word)">
-                                                    <label for=search>Search</label>
-                                                </div>
-                                                <div class="input-field col s2">
-                                                    <a class="btn-floating btn-small waves-effect waves-light red" ng-click="searchWord(word)" ng-disabled="disableSearch">
-                                                        <i class="material-icons">search</i>
-                                                    </a>
-                                                </div>
-                                                <p class="red-text lighten-2">{{message}}</p>
-                                            </div>
-                                        </div>
-                                        <div ng-if="searchData" class="white-text">
-                                            <div class="row">
-                                                <table class="centered">
-                                                    <thead>
-                                                    <tr>
-                                                        <th data-field="id">English</th>
-                                                        <th data-field="name">Translation</th>
-                                                        <th></th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr ng-repeat="word in searchData | orderBy:'-time'">
-                                                        <td>{{word.english}}</td>
-                                                        <td>{{word.translation}}</td>
-                                                        <td>
-                                                            <a class="btn-floating btn-small waves-effect waves-light red" ng-click="deleteFromSearch(word)"><i class="material-icons">delete</i></a>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col s12 m6">
-            <ul class="collapsible cyan darken-2 card" data-collapsible="accordion">
-                <li class="card-content">
-                    <div class="collapsible-header cyan darken-2 white-text active card-title">10 latest words<i class="material-icons right">keyboard_arrow_down</i></div>
-                    <div class="collapsible-body">
-                        <div class="row">
-                            <div class="col s12">
-                                <div class="card">
-                                    <div class="card-content ">
-                                        <table class="centered">
-                                            <thead>
-                                            <tr>
-                                                <th data-field="id">English</th>
-                                                <th data-field="name">Translation</th>
-                                                <th></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr ng-repeat="word in allWords | orderBy:'-time'">
-                                                <td>{{word.english}}</td>
-                                                <td>{{word.translation}}</td>
-                                                <td>
-                                                    <a class="btn-floating btn-small waves-effect waves-light red" ng-click="deleteWord(word)"><i class="material-icons">delete</i></a>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+</nav>
+<ng-view></ng-view>
+
 <script>
+
     $(document).ready(function() {
+        $('.button-collapse').sideNav({
+                menuWidth: 200, // Default is 240
+                edge: 'left', // Choose the horizontal origin
+                closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+            }
+        );
+//        $(".dropdown-button").dropdown();
         $('.collapsible').collapsible();
         Materialize.updateTextFields();
         $('select').material_select();

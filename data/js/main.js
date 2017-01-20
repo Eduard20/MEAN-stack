@@ -1,15 +1,19 @@
 app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cookies',
     function ($scope, $rootScope, $http, $timeout, $cookies) {
-        $scope.english = "";
-        $scope.translation = "";
         $rootScope.isLogged = false;
-        $scope.disableSearch = true;
-        $scope.monthlyQuantity = 100;
         $scope.formData = [];
-        $scope.allWords = [];
-        $scope.userInfo = {};
-        $rootScope.getUserInfo(function(data){
-            (!data.error) ? $rootScope.isLogged = true : $rootScope.isLogged = false;
+        $rootScope.allWords = [];
+        $rootScope.userInfo = {};
+        $scope.disableSearch = true;
+        $rootScope.getUserInfo(function (data) {
+            console.log(data);
+            if (!data.error) {
+                $rootScope.isLogged = true;
+                $rootScope.userInfo = data.message;
+                $rootScope.allWords = data.message.words;
+            } else {
+                $rootScope.isLogged = false;
+            }
         });
         $scope.register = function (username, password, language) {
             var Data = {
@@ -38,12 +42,13 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                 username : username,
                 password : password
             };
-            $http({url : "/login", method : "POST", data : Data}).success(function(data){
+            $http({url : "/login", method : "POST", data : Data}).success(function (data){
                 if (!data.error) {
+                    console.log(data);
                     var token = data.message.token;
                     $cookies.put('token', token);
                     $scope.isLogged = true;
-                    $scope.userInfo = data.message;
+                    $rootScope.allWords = data.message.words;
                 } else {
                     $scope.message = data.message;
                     $timeout(function () {
@@ -52,37 +57,17 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                 }
             })
         };
-        $scope.addWord = function (english, translation) {
-            var Data = {
-                english : english,
-                translation : translation
-            };
-            $scope.formData = JSON.stringify(Data);
-            $http({url : "/addWord", method : "POST", data : $scope.formData}).success(function() {
-                $scope.english = '';
-                $scope.translation = '';
-                Materialize.toast('New word added!', 2000);
-                $scope.refreshWords();
-            })
+        $scope.logout = function () {
+            $cookies.remove('token');
+            $rootScope.isLoggedIn = false;
+            location.reload();
         };
-        $scope.refreshWords = function() {
-            $http({url: "/getWords", method : "GET"}).success(function(data){
-                angular.copy(data.data, $scope.allWords);
-            });
-        };
-        $scope.refreshWords();
-        $scope.deleteWord = function (word) {
-            $http({url : "/deleteWord", method : "POST", data : word}).success(function(data){
-                if (!data.error) {
-                    Materialize.toast('word deleted!', 2000);
-                    $scope.refreshWords();
-                }
-            });
-        };
-        $scope.deleteFromSearch = function (word) {
-            $scope.deleteWord(word);
-            $scope.searchData = false;
-            $scope.word = "";
+
+        // Search
+
+        $scope.enableSearch = function (word) {
+            console.log(word);
+            (undefined != word && word.length > 0) ? $scope.disableSearch = false : $scope.disableSearch = true;
         };
         $scope.searchWord = function (word) {
             var data = { word : word };
@@ -98,9 +83,12 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                 }
             })
         };
-        $scope.enableSearch = function (word) {
-            (word.length > 0) ? $scope.disableSearch = false : $scope.disableSearch = true;
-        }
+        $scope.deleteFromSearch = function (word) {
+            $scope.deleteWord(word);
+            $scope.searchData = false;
+            $scope.word = "";
+        };
+
     }
 ]);
 

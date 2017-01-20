@@ -23,7 +23,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/data'));
-// app.set('view engine', 'jade');
 app.use("/", routes);
 
 app.use(function (req, res, next) {
