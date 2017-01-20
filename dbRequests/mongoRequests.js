@@ -6,6 +6,7 @@ const usersFunction = require("../middlewares/users");
 mongoose.Promise = Promise;
 
 const mongo = {
+
     saveWord: function (word, next) {
         var query = {"english": word.english};
         WordsModel.findOneAndUpdate(query, word, {upsert: true}, function (err) {
@@ -14,6 +15,7 @@ const mongo = {
             else next({status: "OK"})
         })
     },
+
     getWords: function (next) {
         var query = WordsModel.find().sort({_id: -1}).limit(10);
         query.exec(function (err, doc) {
@@ -21,6 +23,7 @@ const mongo = {
             else next({status: "OK", data: doc})
         });
     },
+
     deleteWord: function (word, next) {
         var query = {"english": word};
         WordsModel.remove(query, function (err) {
@@ -28,6 +31,7 @@ const mongo = {
             else next({error: false, status: "OK"})
         })
     },
+
     login: function (req, next) {
         var query = {"username": req.body.username};
         UsersModel.find(query, function (err, doc) {
@@ -47,6 +51,7 @@ const mongo = {
             }
         })
     },
+
     register: function (req, next) {
         var data = req.body;
         var query = {"username": req.body.username};
@@ -95,7 +100,7 @@ const mongo = {
             }
         });
     }
-}
+};
 
 module.exports = mongo;
 

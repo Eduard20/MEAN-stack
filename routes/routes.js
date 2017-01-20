@@ -2,7 +2,6 @@
 var helperFunction = require("../middlewares/helpers");
 var mongoRequests = require("../dbRequests/mongoRequests");
 const express = require("express");
-const fs = require("fs");
 const router = express.Router();
 
     router.get('/', function (req, res) {

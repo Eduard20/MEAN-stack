@@ -1,5 +1,7 @@
 app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cookies',
     function ($scope, $rootScope, $http, $timeout, $cookies) {
+        $scope.english = "";
+        $scope.translation = "";
         $rootScope.isLogged = false;
         $scope.disableSearch = true;
         $scope.monthlyQuantity = 100;
@@ -50,7 +52,7 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                 }
             })
         };
-        $scope.addWord = function(english, translation) {
+        $scope.addWord = function (english, translation) {
             var Data = {
                 english : english,
                 translation : translation
