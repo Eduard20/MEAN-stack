@@ -32,57 +32,57 @@
                     </li>
                 </ul>
             </div>
-            <!--<div class="col s12" id="searchWords">-->
-                <!--<ul class="collapsible teal darken-3 card" data-collapsible="accordion">-->
-                    <!--<li class="card-content">-->
-                        <!--<div class="collapsible-header teal darken-3 white-text active card-title">Search word<i class="material-icons right">keyboard_arrow_down</i></div>-->
-                        <!--<div class="collapsible-body">-->
-                            <!--<div class="row">-->
-                                <!--<div class="col s12">-->
-                                    <!--<div class="card">-->
-                                        <!--<div class="card-content">-->
-                                            <!--<div class="row">-->
-                                                <!--<div class="input-field col s10">-->
-                                                    <!--<input type="text" id="search" ng-model="word" ng-change="enableSearch(word)">-->
-                                                    <!--<label for=search>Search</label>-->
-                                                <!--</div>-->
-                                                <!--<div class="input-field col s2">-->
-                                                    <!--<a class="btn-floating btn-small waves-effect waves-light red" ng-click="searchWord(word)" ng-disabled="disableSearch">-->
-                                                        <!--<i class="material-icons">search</i>-->
-                                                    <!--</a>-->
-                                                <!--</div>-->
-                                                <!--<p class="red-text lighten-2">{{message}}</p>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div ng-if="searchData" class="white-text">-->
-                                            <!--<div class="row">-->
-                                                <!--<table class="centered">-->
-                                                    <!--<thead>-->
-                                                    <!--<tr>-->
-                                                        <!--<th data-field="id">English</th>-->
-                                                        <!--<th data-field="name">Translation</th>-->
-                                                        <!--<th></th>-->
-                                                    <!--</tr>-->
-                                                    <!--</thead>-->
-                                                    <!--<tbody>-->
-                                                    <!--<tr ng-repeat="word in searchData | orderBy:'-time'">-->
-                                                        <!--<td>{{word.english}}</td>-->
-                                                        <!--<td>{{word.translation}}</td>-->
-                                                        <!--<td>-->
-                                                            <!--<a class="btn-floating btn-small waves-effect waves-light red" ng-click="deleteFromSearch(word)"><i class="material-icons">delete</i></a>-->
-                                                        <!--</td>-->
-                                                    <!--</tr>-->
-                                                    <!--</tbody>-->
-                                                <!--</table>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</div>-->
+            <div class="col s12" id="searchWords">
+                <ul class="collapsible teal darken-3 card" data-collapsible="accordion">
+                    <li class="card-content">
+                        <div class="collapsible-header teal darken-3 white-text active card-title">Search word<i class="material-icons right">keyboard_arrow_down</i></div>
+                        <div class="collapsible-body">
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <p class="red-text lighten-2">{{message}}</p>
+                                            <div class="row">
+                                                <div class="input-field col s10">
+                                                    <input type="text" id="search" ng-model="word" ng-change="enableSearch(word)">
+                                                    <label for=search>Search</label>
+                                                </div>
+                                                <div class="input-field col s2">
+                                                    <a class="btn-floating btn-small waves-effect waves-light red" ng-click="searchWord(word)" ng-disabled="disableSearch">
+                                                        <i class="material-icons">search</i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="searchData">
+                                            <div class="row">
+                                                <table class="centered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th data-field="id">English</th>
+                                                        <th data-field="name">Translation</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="word in searchData | orderBy:'-time'">
+                                                        <td>{{word.english}}</td>
+                                                        <td>{{word.translation}}</td>
+                                                        <td>
+                                                            <a class="btn-floating btn-small waves-effect waves-light red" ng-click="deleteFromSearch(word)"><i class="material-icons">delete</i></a>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="col s12 m6">
             <ul class="collapsible cyan darken-2 card" data-collapsible="accordion">

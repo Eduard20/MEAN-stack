@@ -1,30 +1,12 @@
 
 const mongoose = require("mongoose");
 const WordsModel = require("../models/wordsModel");
-const UsersModel = require("../models/usersModel");
 const usersFunction = require("../middlewares/users");
 mongoose.Promise = Promise;
 const _ = require("underscore");
-const async = require("async");
+// const async = require("async");
 
 const mongo = {
-
-    // saveWord: function (word, next) {
-    //     var query = {"english": word.english};
-    //     WordsModel.findOneAndUpdate(query, word, {upsert: true}, function (err) {
-    //         console.log(err);
-    //         if (err) next({error: true, message: err});
-    //         else next({status: "OK"})
-    //     })
-    // },
-    //
-    // getWords: function (next) {
-    //     var query = WordsModel.find().sort({_id: -1}).limit(10);
-    //     query.exec(function (err, doc) {
-    //         if (err) next({error: true, message: err});
-    //         else next({status: "OK", data: doc})
-    //     });
-    // },
 
     deleteWord: function (word, next) {
         var query = {"english": word};
@@ -40,7 +22,6 @@ const mongo = {
             if (err) next({error: true, message: err});
             else {
                 if (doc.length > 0) {
-                    console.log(doc);
                     var data = JSON.stringify(doc[0]);
                     data = JSON.parse(data);
                     if (req.body.password === data.password) {
@@ -67,8 +48,6 @@ const mongo = {
                     data.token = usersFunction.generateToken(data);
                     data.words = [];
                     WordsModel.create(data, function (err, doc) {
-                        console.log(err);
-                        console.log(doc);
                         if (!err) {
                             next({error : false, message : doc.token});
                         } else {
@@ -80,16 +59,26 @@ const mongo = {
         })
     },
 
-    searchWord: function (req, next) {
-        var word = req.body.word;
-        var query = {"english": word};
+    searchWord: function (token, word, next) {
+        var query = {"token": token};
         WordsModel.find(query, function (err, doc) {
             if (err) next({error: true, message: err});
             else {
                 if (doc.length > 0) {
-                    next({error: false, message: doc})
+                    var data = JSON.stringify(doc[0]);
+                    data = JSON.parse(data);
+                    var some = data.words;
+                    var f = _.find(some, function (one) {
+                        return (one.english == word);
+                    });
+
+                    if (undefined != f) {
+                        next({error : false, message : {"words" : [f]}})
+                    } else {
+                        next({error : true, message : "Word was not found"})
+                    }
                 } else {
-                    next({error: true, message: "Word was not found"});
+                    next({error : true, message : "User does not exist"})
                 }
             }
         })

@@ -33,7 +33,31 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                 }
             });
         };
+        // Search
 
+        $scope.enableSearch = function (word) {
+            (undefined != word && word.length > 0) ? $scope.disableSearch = false : $scope.disableSearch = true;
+        };
+        $scope.searchWord = function (word) {
+            var data = { word : word };
+            $http({url : "/api/searchWord", method : "POST", data : data}).success( function (data) {
+                if (!data.error) {
+                    $scope.searchData = data.message.words;
+                } else {
+                    $scope.searchData = false;
+                    $scope.word = "";
+                    $scope.message = data.message;
+                    $timeout(function () {
+                        $scope.message = "";
+                    }, 2000)
+                }
+            })
+        };
+        $scope.deleteFromSearch = function (word) {
+            $scope.deleteWord(word);
+            $scope.searchData = false;
+            $scope.word = "";
+        };
     }
 ]);
 

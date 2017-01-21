@@ -63,32 +63,6 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
             location.reload();
         };
 
-        // Search
-
-        $scope.enableSearch = function (word) {
-            console.log(word);
-            (undefined != word && word.length > 0) ? $scope.disableSearch = false : $scope.disableSearch = true;
-        };
-        $scope.searchWord = function (word) {
-            var data = { word : word };
-            $http({url : "/searchWord", method : "POST", data : data}).success( function (data) {
-                if (!data.error) {
-                    $scope.searchData = data.message;
-                } else {
-                    $scope.word = "";
-                    $scope.message = data.message;
-                    $timeout(function () {
-                        $scope.message = "";
-                    }, 2000)
-                }
-            })
-        };
-        $scope.deleteFromSearch = function (word) {
-            $scope.deleteWord(word);
-            $scope.searchData = false;
-            $scope.word = "";
-        };
-
     }
 ]);
 

@@ -5,21 +5,6 @@ const express = require("express");
 const fs = require("fs");
 const router = express.Router();
 
-    // router.post("/addWord", function (req, res) {
-    //     helperFunction.saveWordInMongo(req, function(next) {
-    //         res.send(next);
-    //     })
-    // });
-    // router.get("/getWords", function (req, res) {
-    //     mongoRequests.getWords(function(next) {
-    //         res.send(next);
-    //     })
-    // });
-    // router.post("/deleteWord", function (req, res) {
-    //     helperFunction.deleteWord(req, function(next) {
-    //         res.send(next);
-    //     })
-    // });
     router.post("/login", function (req, res) {
         if (undefined != req.body.username) {
             mongoRequests.login(req, function (next) {
@@ -47,15 +32,6 @@ const router = express.Router();
             res.send({error : true, message : 'token is not provided'})
         }
     });
-    router.post("/searchWord", function (req, res) {
-        if (undefined != req.body.word) {
-            mongoRequests.searchWord(req, function (next) {
-                res.send(next);
-            })
-        } else {
-            res.send({error : true, message : "Word is not provided"});
-        }
-    });
 
     router.post("/api/add", function (req, res) {
         helperFunction.add(req, function (next) {
@@ -72,6 +48,16 @@ const router = express.Router();
         helperFunction.getWord(req, function (next) {
             res.send(next);
         })
+    });
+
+    router.post("/api/searchWord", function (req, res) {
+        if (undefined != req.body.word) {
+            helperFunction.searchWord(req, function (next) {
+                res.send(next);
+            })
+        } else {
+            res.send({error : true, message : "Word is not provided"});
+        }
     });
 
 
