@@ -36,6 +36,7 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
         // Search
 
         $scope.enableSearch = function (word) {
+            console.log(word);
             (undefined != word && word.length > 0) ? $scope.disableSearch = false : $scope.disableSearch = true;
         };
         $scope.searchWord = function (word) {
@@ -49,7 +50,8 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                     $scope.message = data.message;
                     $timeout(function () {
                         $scope.message = "";
-                    }, 2000)
+                    }, 2000);
+                    $scope.enableSearch($scope.word);
                 }
             })
         };
@@ -57,6 +59,7 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
             $scope.deleteWord(word);
             $scope.searchData = false;
             $scope.word = "";
+            $scope.enableSearch($scope.word);
         };
     }
 ]);
