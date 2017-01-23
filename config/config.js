@@ -12,5 +12,13 @@ module.exports = {
             }
         }
     },
-    jwtSecret: "ewvew327fv439@77fveh00@#cvegc"
+    mongoURI : "mongodb://edodb:omega2020@ds013564.mlab.com:13564/heroku_qwz21fc2",
+    jwtSecret: "ewvew327fv439@77fveh00@#cvegc",
+    mailConf : {
+        service: 'gmail',
+        auth: {
+            user: 'esimonyan2014@gmail.com',
+            pass: ''
+        }
+    }
 };

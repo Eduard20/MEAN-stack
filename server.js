@@ -1,23 +1,24 @@
-var express = require('express');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var mongoose = require("mongoose");
-var platformConfigs = require('./config/config');
-var port = platformConfigs.port;
-var app = express();
-var helpers = require("./middlewares/helpers");
-var routes = require("./routes/routes");
-var jade = require("jade");
+
+// Modules
+
+const express = require('express');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const mongoose = require("mongoose");
+const platformConfigs = require('./config/config');
+const port = platformConfigs.port;
+const app = express();
+const helpers = require("./middlewares/helpers");
+const routes = require("./routes/routes");
 process.env.NODE_ENV = platformConfigs.mode;
 
 // MongoDB
 
-var dbURI = 'mongodb://edodb:omega2020@ds013564.mlab.com:13564/heroku_qwz21fc2';
-mongoose.connect(dbURI);
+mongoose.connect(platformConfigs.mongoURI);
 // mongoose.connect(platformConfigs.mongoConf.url,platformConfigs.mongoConf.options);
-mongoose.connection.on("connected", function () {console.log("Mongo default connection open")});
-mongoose.connection.on("error", function (err)  {console.log("Mongo default connection error: " + err)});
-mongoose.connection.on("disconnected", function () {console.log("Mongo default connection disconnected")});
+mongoose.connection.on("connected", () => {console.log("Mongo default connection open")});
+mongoose.connection.on("error", (err) =>  {console.log("Mongo default connection error: " + err)});
+mongoose.connection.on("disconnected", () => {console.log("Mongo default connection disconnected")});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -26,7 +27,7 @@ app.use(express.static(__dirname + '/data'));
 app.use("/", routes);
 
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -54,6 +55,6 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.listen(port, function(){
-    console.log('listening on port ' + port + ' in ' + process.env.NODE_ENV + ' mode');
+app.listen(port, () => {
+    console.log(`listening on port ${port} in ${process.env.NODE_ENV} mode with process id ${process.pid}`);
 });

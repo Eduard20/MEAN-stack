@@ -48,29 +48,38 @@
                             <form class="col s12 grey-text" name="registerForm">
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="username" type="email" class="validate" required name="username" ng-model="username">
-                                        <label for="username">Username</label>
+                                        <input id="username_register" type="email" class="validate" required name="Email" ng-model="username">
+                                        <label for="username_register" data-error="wrong" data-success="right">Email</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="password" type="password" class="validate" required="" name="password" ng-model="password">
-                                        <label for="password">Password</label>
+                                        <input id="password_register" type="password" class="validate" required="" name="password" ng-model="password">
+                                        <label for="password_register" data-error="wrong" data-success="right">Password</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <select ng-model="language" required>
+                                        <select ng-model="language" required id="lang">
                                             <option value="" disabled selected>Choose language</option>
                                             <option value="1">English</option>
                                         </select>
-                                        <label>Language</label>
+                                        <label for="lang">Main Language</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <select ng-model="translation" required id="translation">
+                                            <option value="" disabled selected>Choose Translation language</option>
+                                            <option value="1">Russian</option>
+                                        </select>
+                                        <label for="translation">Translation Language</label>
                                     </div>
                                 </div>
                                 <p class="red-text text-darken-2">{{message}}</p>
                                 <div class="row">
                                     <div class="input-field col s10 m10 l6">
-                                        <button class="btn waves-effect waves-light" type="submit" ng-click="register(username, password, language)" ng-disabled="registerForm.$invalid" disabled="disabled">Register
+                                        <button class="btn waves-effect waves-light" type="submit" ng-click="register(username, password, language, translation)" ng-disabled="registerForm.$invalid" disabled="disabled">Register
                                             <i class="material-icons right">send</i>
                                         </button>
                                     </div>
@@ -85,10 +94,10 @@
             <div class="modal-content">
                 <h4>Congrats</h4>
                 <p>You have been successfully registered</p>
-                <p>Please login</p>
+                <p>Please check your email to activate your account</p>
             </div>
             <div class="modal-footer">
-                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
             </div>
         </div>
     </div>

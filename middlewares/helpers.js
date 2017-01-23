@@ -4,7 +4,7 @@ const mongoRequests = require("../dbRequests/mongoRequests");
 
 const helpers = {
 
-    add : function (req, next) {
+    addWord : function (req, next) {
         var token = req.headers.authorization;
         var time = new Date();
         var word = {
@@ -17,10 +17,10 @@ const helpers = {
         })
     },
 
-    delete : function (req, next) {
+    deleteWord : function (req, next) {
         var token = req.headers.authorization;
         var word = req.body.english;
-        mongoRequests.delete(token, word, function(result) {
+        mongoRequests.deleteWord(token, word, function(result) {
             next(result);
         })
     },
@@ -28,6 +28,13 @@ const helpers = {
     getWord : function (req, next) {
         var token = req.headers.authorization;
         mongoRequests.getWord(token, function(result) {
+            next(result);
+        })
+    },
+
+    getLatestWords : function (req, next) {
+        var token = req.headers.authorization;
+        mongoRequests.getLatestWords(token, function(result) {
             next(result);
         })
     },

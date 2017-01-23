@@ -10,7 +10,7 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                 translation : translation
             };
             $scope.formData = JSON.stringify(Data);
-            $http({url : "/api/add", method : "POST", data : $scope.formData}).success(function(data) {
+            $http({url : "/api/addWord", method : "POST", data : $scope.formData}).success(function(data) {
                 $rootScope.allWords = data.message.words;
                 $scope.english = '';
                 $scope.translation = '';
@@ -24,15 +24,21 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                 angular.copy(data.message, $rootScope.allWords);
             });
         };
-        // $scope.refreshWords();
         $scope.deleteWord = function (word) {
-            $http({url : "/api/delete", method : "POST", data : word}).success(function(data){
+            $http({url : "/api/deleteWord", method : "POST", data : word}).success(function(data){
                 if (!data.error) {
                     Materialize.toast('word deleted!', 2000);
                     $scope.refreshWords();
                 }
             });
         };
+
+        $scope.getLatestWords = function () {
+            $http({url: "/api/getLatestWords", method : "GET"}).success(function(data){
+                console.log(data);
+            });
+        };
+        $scope.getLatestWords();
         // Search
 
         $scope.enableSearch = function (word) {

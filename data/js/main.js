@@ -15,19 +15,23 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                 $rootScope.isLogged = false;
             }
         });
-        $scope.register = function (username, password, language) {
-            var Data = {
+        $scope.register = (username, password, language, translation) => {
+            let Data = {
                 username : username,
                 password : password
             };
             if (language == 1) {
-                Data.language = "English"
+                Data.language = "EN"
+            }
+            if (translation == 1) {
+                Data.translation = "RU"
             }
             $http({url : "/register", method : "POST", data : Data}).success(function (data){
                 if (!data.error) {
                     $scope.username = "";
                     $scope.password = "";
                     $scope.language = "";
+                    $scope.translation = "";
                     $('#modal1').modal('open');
                 } else {
                     $scope.message = data.message;
