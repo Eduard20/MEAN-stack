@@ -14,11 +14,12 @@ module.exports = {
     },
     mongoURI : "mongodb://edodb:omega2020@ds013564.mlab.com:13564/heroku_qwz21fc2",
     jwtSecret: "ewvew327fv439@77fveh00@#cvegc",
-    mailConf : {
-        service: 'gmail',
-        auth: {
-            user: 'wordsrepeatinfo@gmail.com',
-            pass: 'words2017'
-        }
-    }
+    hashSecret : "wqbhfjevwfj7341`2^*(34)yeahew&3",
+    // mailConf : {
+    //     service: 'gmail',
+    //     auth: {
+    //         user: 'wordsrepeatinfo@gmail.com',
+    //         pass: 'words2017'
+    //     }
+    // }
 };

@@ -59,7 +59,6 @@ const mongo = {
                     return;
                 }
                 data.token = usersFunction.generateToken(data);
-                data.status = 0;
                 callback(null, data);
             },
             (data, callback) => {
@@ -69,7 +68,6 @@ const mongo = {
                         return;
                     }
                     callback(null, {error : false, message : data.token});
-                    usersFunction.sendActivation(data);
                 })
             }
         ], (err, result) => {

@@ -1,6 +1,5 @@
 app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cookies', '$routeParams',
     ($scope, $rootScope, $http, $timeout, $routeParams) => {
-        console.log($routeParams.username);
         $scope.formData = [];
         $scope.showWords = false;
         $scope.addWord = (word, translation) => {
@@ -24,7 +23,13 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
 
         $scope.refreshWords = () => {
             $rootScope.httpRequest("getLatestWords", "GET", {}, (data) => {
-                $rootScope.latestWords = data.message;
+                console.log(data);
+                if (!data.error) {
+                    $rootScope.latestWords = data.message;
+                } else {
+                    $rootScope.latestWords = [];
+                    $scope.wordMessage = data.message;
+                }
                 $scope.showWords = true;
             });
         };

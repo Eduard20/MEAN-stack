@@ -7,9 +7,6 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
                 templateUrl: '../html/main.html',
                 controller: 'homeCtrl'
             })
-            .when("/:username", {
-                controller: 'homeCtrl'
-            })
             .otherwise({ redirectTo: '/' });
 
         $httpProvider.interceptors.push(['$q', '$location', '$cookies', '$rootScope', ($q, $location, $cookies, $rootScope) => {
