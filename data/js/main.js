@@ -1,20 +1,25 @@
 app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cookies',
-    function ($scope, $rootScope, $http, $timeout, $cookies) {
+     ($scope, $rootScope, $http, $timeout, $cookies) => {
         $rootScope.isLogged = false;
         $scope.formData = [];
-        $rootScope.allWords = [];
+        $rootScope.latestWords = [];
         $rootScope.userInfo = {};
         $scope.disableSearch = true;
-        $rootScope.getUserInfo(function (data) {
-            console.log(data);
-            if (!data.error) {
-                $rootScope.isLogged = true;
-                $rootScope.userInfo = data.message;
-                $rootScope.allWords = data.message.words;
-            } else {
-                $rootScope.isLogged = false;
-            }
-        });
+        let getUserInfo = (token) => {
+             if (token) {
+                 $rootScope.getUserInfo((data) => {
+                     if (!data.error) {
+                         $rootScope.isLogged = true;
+                         $rootScope.userInfo = data.message;
+                     } else {
+                         $rootScope.isLogged = false;
+                     }
+                 });
+             }
+         };
+        let token = $cookies.get('token');
+        getUserInfo(token);
+
         $scope.register = (username, password, language, translation) => {
             let Data = {
                 username : username,
@@ -26,7 +31,7 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
             if (translation == 1) {
                 Data.translation = "RU"
             }
-            $http({url : "/register", method : "POST", data : Data}).success(function (data){
+            $http({url : "/register", method : "POST", data : Data}).success( (data) => {
                 if (!data.error) {
                     $scope.username = "";
                     $scope.password = "";
@@ -35,38 +40,36 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                     $('#modal1').modal('open');
                 } else {
                     $scope.message = data.message;
-                    $timeout(function () {
+                    $timeout(() => {
                         $scope.message = "";
                     }, 2000)
                 }
             })
         };
-        $scope.login = function (username, password) {
-            var Data = {
+        $scope.login = (username, password) => {
+            let Data = {
                 username : username,
                 password : password
             };
-            $http({url : "/login", method : "POST", data : Data}).success(function (data){
+            $http({url : "/login", method : "POST", data : Data}).success((data) =>{
                 if (!data.error) {
-                    console.log(data);
-                    var token = data.message.token;
+                    let token = data.message.token;
                     $cookies.put('token', token);
                     $scope.isLogged = true;
                     $rootScope.allWords = data.message.words;
                 } else {
                     $scope.message = data.message;
-                    $timeout(function () {
+                    $timeout(() => {
                         $scope.message = "";
                     }, 2000)
                 }
             })
         };
-        $scope.logout = function () {
+        $scope.logout = () => {
             $cookies.remove('token');
             $rootScope.isLoggedIn = false;
             location.reload();
         };
-
-    }
+     }
 ]);
 

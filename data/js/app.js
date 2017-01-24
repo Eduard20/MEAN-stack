@@ -1,7 +1,7 @@
-var app = angular.module('wordsApp', ['ngRoute', 'ngSanitize', 'ngCookies']);
+const app = angular.module('wordsApp', ['ngRoute', 'ngSanitize', 'ngCookies']);
 
 app.config(['$routeProvider', '$locationProvider', '$httpProvider',
-    function ($routeProvider, $locationProvider, $httpProvider) {
+    ($routeProvider, $locationProvider, $httpProvider) => {
         $routeProvider
             .when("/", {
                 templateUrl: '../html/main.html',
@@ -9,18 +9,18 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
             })
             .otherwise({ redirectTo: '/' });
 
-        $httpProvider.interceptors.push(['$q', '$location', '$cookies', '$rootScope', function($q, $location, $cookies, $rootScope) {
+        $httpProvider.interceptors.push(['$q', '$location', '$cookies', '$rootScope', ($q, $location, $cookies, $rootScope) => {
             return {
-                'request': function (config) {
+                'request': (config) => {
                     config.headers = config.headers || {};
                     config.timeout = 15000;
-                    var token = $cookies.get('token');
+                    let token = $cookies.get('token');
                     if (token) {
                         config.headers.Authorization = token;
                     }
                     return config;
                 },
-                'responseError': function(response) {
+                'responseError': (response) => {
                     switch (response.status) {
                         case 401:
                         case 403:
@@ -43,16 +43,16 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
 ]);
 
 app.run(['$rootScope', '$timeout', '$http','$cookies',
-    function($rootScope, $timeout, $http,$cookies) {
-        $rootScope.httpRequest = function(path, method, obj, callback) {
+    ($rootScope, $timeout, $http, $cookies) => {
+        $rootScope.httpRequest = (path, method, obj, callback) => {
             return $http({
                 url: '/api/' + path,
                 method: method,
                 data: obj
             }).success(callback).error(callback);
         };
-        $rootScope.getUserInfo = function(callback) {
-            var token = $cookies.get('token');
+        $rootScope.getUserInfo = (callback) => {
+            let token = $cookies.get('token');
             $http({
                 method: 'POST',
                 timeout: 15000,

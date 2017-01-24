@@ -16,13 +16,13 @@
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <input id="username" type="email" class="validate" required name="username" ng-model="username">
-                                        <label for="username">Username</label>
+                                        <label for="username" data-error="wrong" data-success="right">Email</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <input id="password" type="password" class="validate" required="" name="password" ng-model="password">
-                                        <label for="password">Password</label>
+                                        <label for="password" data-error="wrong" data-success="right">Password</label>
                                     </div>
                                 </div>
                                 <p class="red-text text-darken-2 ng-binding">{{message}}</p>

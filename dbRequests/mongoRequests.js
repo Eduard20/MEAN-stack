@@ -209,11 +209,11 @@ const mongo = {
 
     // user operations
 
-    login: (req, next) => {
+    login : (req, next) => {
         let query = {"username": req.body.username};
         async.waterfall([
             (callback) => {
-                UsersModel.findOne(query, (err, doc) => {
+                UsersModel.find(query, (err, doc) => {
                     (err) ? callback({error: true, message: err}, null) : callback(null, doc);
                 });
             },
@@ -242,7 +242,7 @@ const mongo = {
         });
     },
 
-    register: (req, next) => {
+    register : (req, next) => {
             let data = req.body;
             let query = {"username" : data.username};
             async.waterfall([
@@ -279,15 +279,29 @@ const mongo = {
             })
     },
 
-    getUserInfo: function (req, next) {
-        var token = req.headers.authorization;
-        var query = {"token": token};
-        WordsModel.find(query, function (err, doc) {
+    checkToken : (token, next) => {
+        let query = {"token" : token};
+        UsersModel.find(query, (err, doc) => {
+            if (err) next({error : true, message : err});
+            else {
+                if (doc.length > 0) {
+                    next({error : false, message : doc[0]});
+                } else {
+                    next({error : true, message : "Token is not valid"})
+                }
+            }
+        })
+    },
+
+    getUserInfo: (req, next) => {
+        let token = req.headers.authorization;
+        let query = {"token": token};
+        UsersModel.find(query, (err, doc) => {
             if (err) {
                 next({error : true, message : err})
             } else {
                 if (doc.length > 0) {
-                    var data = JSON.stringify(doc[0]);
+                    let data = JSON.stringify(doc[0]);
                     data = JSON.parse(data);
                     next({error : false, message : data})
                 } else {
@@ -297,137 +311,63 @@ const mongo = {
         })
     },
 
+
     // Words operations
 
-    searchWord: function (token, word, next) {
-        var query = {"token": token};
-        WordsModel.find(query, function (err, doc) {
+    addWord : (username, word, next) => {
+        let data = word;
+        data.username = username;
+        let query = {"username" : data.username, "word" : data.word};
+        WordsModel.findOneAndUpdate(query, data, {upsert : true}, (err) => {
+            if (err) next({error: true, message: err});
+            else {
+                next({error : false});
+            }
+        })
+    },
+
+    getLatestWords : (username, next) => {
+        let query = WordsModel.find({"username" : username}).limit(10).sort({_id:-1});
+        query.exec((err, doc) => {
+            if (err) {
+                next({error : true, message : err})
+            } else {
+                if (doc.length > 0) {
+                    next({error : false, message : doc});
+                } else {
+                    next({error : true, message : "No words for this user"})
+                }
+            }
+        })
+    },
+
+    deleteWord : (id, next) => {
+        let query = {_id : id};
+        WordsModel.findOneAndRemove(query, (err) => {
+            if (err) next({error : true, message : err});
+            else next({error : false})
+        })
+    },
+
+    searchWord : (username, word, next) => {
+        let query = {username : username, word : word};
+        WordsModel.find(query, (err, doc) => {
             if (err) next({error: true, message: err});
             else {
                 if (doc.length > 0) {
-                    var data = JSON.stringify(doc[0]);
-                    data = JSON.parse(data);
-                    var some = data.words;
-                    var f = _.find(some, function (one) {
-                        return (one.english == word);
-                    });
-
-                    if (undefined != f) {
-                        next({error : false, message : {"words" : [f]}})
-                    } else {
-                        next({error : true, message : "Word was not found"})
-                    }
+                    next({error : false, message : doc})
                 } else {
-                    next({error : true, message : "User does not exist"})
+                    next({error : true, message : "Word was not found"});
                 }
             }
         })
-    },
-
-    addWord : function (token, word, next) {
-        var query = {"token" : token};
-        WordsModel.find(query, function (err, doc) {
-            if (err) {
-                next({error : true, message : err})
-            } else {
-                if (doc.length > 0) {
-                    var data = JSON.stringify(doc[0]);
-                    data = JSON.parse(data);
-                    var some = data.words;
-                    var f = _.find(some, function (one) {
-                        return (one.english == word.english);
-                    });
-                    if (undefined != f) {
-                        some[some.indexOf(f)] = word;
-                    } else {
-                        some.push(word);
-                    }
-                    data.words = some;
-                    var query = {"username": data.username};
-                    WordsModel.findOneAndUpdate(query, data, {upsert: true, new :true}, function(err, doc){
-                        if (!err) {
-                            next({error : false, message: doc})
-                        } else {
-                            next({error : true, message : err})
-                        }
-                    });
-                } else {
-                    next({error : true, message : "User does not exist"})
-                }
-            }
-        })
-    },
-
-    deleteWord : function (token, word, next) {
-        var query = {"token": token};
-        WordsModel.find(query, function (err, doc) {
-            if (err) {
-                next({error : true, message : err})
-            } else {
-                if (doc.length > 0) {
-                    var data = JSON.stringify(doc[0]);
-                    data = JSON.parse(data);
-                    var some = data.words;
-                    var f = _.find(some, function (one) {
-                        return (one.english == word);
-                    });
-                    if (undefined != f) {
-                        some.splice(some.indexOf(f), 1);
-                        data.words = some;
-                        var query = {"username": data.username};
-                        WordsModel.findOneAndUpdate(query, data, {upsert: true, new :true}, function(err, doc){
-                            if (!err) {
-                                next({error : false, message: doc})
-                            } else {
-                                next({error : true, message : err})
-                            }
-                        });
-                    } else {
-                        next({error : true, message : "Word was not found"})
-                    }
-                } else {
-                    next({error : true, message : "User does not exist"})
-                }
-            }
-        })
-    },
-
-    getWord : function (token, next) {
-        var query = {"token": token};
-        WordsModel.find(query, function (err, doc) {
-            if (err) {
-                next({error : true, message : err})
-            } else {
-                if (doc.length > 0) {
-                    var data = JSON.stringify(doc[0]);
-                    data = JSON.parse(data);
-                    next({error : false, message : data.words})
-                } else {
-                    next({error : true, message : "User does not exist"})
-                }
-            }
-        })
-
-    },
-
-    getLatestWords : function (token, next) {
-        var query = WordsModel.find({"token": token}, {"words" : 1}, { $limit : 5 });
-        query.exec(function (err, doc) {
-            if (err) {
-                next({error : true, message : err})
-            } else {
-                if (doc.length > 0) {
-                    var data = JSON.stringify(doc[0]);
-                    data = JSON.parse(data);
-                    console.log(data);
-                    next({error : false, message : data.words})
-                } else {
-                    next({error : true, message : "User does not exist"})
-                }
-            }
-        })
-
     }
+
+
+
+
+    //////
+
 };
 
 module.exports = mongo;

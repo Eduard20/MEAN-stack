@@ -1,70 +1,70 @@
 app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cookies',
-    function ($scope, $rootScope, $http, $timeout) {
-        $scope.english = "";
-        $scope.translation = "";
-        $scope.monthlyQuantity = 100;
+    ($scope, $rootScope, $http, $timeout) => {
         $scope.formData = [];
-        $scope.addWord = function (english, translation) {
-            var Data = {
-                english : english,
-                translation : translation
+        $scope.showWords = false;
+        $scope.addWord = (word, translation) => {
+            let data = {
+                word : word,
+                translation : translation,
+                word_type : $rootScope.userInfo.language,
+                trans_type : $rootScope.userInfo.translation
             };
-            $scope.formData = JSON.stringify(Data);
-            $http({url : "/api/addWord", method : "POST", data : $scope.formData}).success(function(data) {
-                $rootScope.allWords = data.message.words;
-                $scope.english = '';
-                $scope.translation = '';
-                Materialize.toast('New word added!', 2000);
-                // $scope.refreshWords();
-                console.log(data);
-            })
-        };
-        $scope.refreshWords = function() {
-            $http({url: "/api/getWord", method : "GET"}).success(function(data){
-                angular.copy(data.message, $rootScope.allWords);
-            });
-        };
-        $scope.deleteWord = function (word) {
-            $http({url : "/api/deleteWord", method : "POST", data : word}).success(function(data){
+            $rootScope.httpRequest("addWord", "POST", data, (data) => {
                 if (!data.error) {
-                    Materialize.toast('word deleted!', 2000);
                     $scope.refreshWords();
+                    $scope.word = null;
+                    $scope.translation = null;
+                    Materialize.toast('New word added!', 1500);
                 }
             });
         };
 
-        $scope.getLatestWords = function () {
-            $http({url: "/api/getLatestWords", method : "GET"}).success(function(data){
-                console.log(data);
+        // get latest words
+
+        $scope.refreshWords = () => {
+            $rootScope.httpRequest("getLatestWords", "GET", {}, (data) => {
+                $rootScope.latestWords = data.message;
+                $scope.showWords = true;
             });
         };
-        $scope.getLatestWords();
+        $scope.refreshWords();
+
+        // delete word
+
+        $scope.deleteWord = (word) => {
+            $rootScope.httpRequest("deleteWord", "POST", word, (data) => {
+                if (!data.error) {
+                    $scope.refreshWords();
+                    Materialize.toast('word deleted!', 1500);
+                }
+            });
+        };
+
         // Search
 
-        $scope.enableSearch = function (word) {
-            console.log(word);
+        $scope.enableSearch = (word) => {
             (undefined != word && word.length > 0) ? $scope.disableSearch = false : $scope.disableSearch = true;
         };
-        $scope.searchWord = function (word) {
-            var data = { word : word };
-            $http({url : "/api/searchWord", method : "POST", data : data}).success( function (data) {
+        $scope.searchWord = (word) => {
+            let data = {word : word};
+            $rootScope.httpRequest("searchWord", "POST", data, (data) => {
                 if (!data.error) {
-                    $scope.searchData = data.message.words;
+                    $scope.searchData = data.message;
                 } else {
                     $scope.searchData = false;
-                    $scope.word = "";
+                    $scope.sWord = null;
                     $scope.message = data.message;
-                    $timeout(function () {
-                        $scope.message = "";
+                    $timeout(() => {
+                        $scope.message = null;
                     }, 2000);
                     $scope.enableSearch($scope.word);
                 }
-            })
+            });
         };
-        $scope.deleteFromSearch = function (word) {
+        $scope.deleteFromSearch = (word) => {
             $scope.deleteWord(word);
             $scope.searchData = false;
-            $scope.word = "";
+            $scope.sWord = null;
             $scope.enableSearch($scope.word);
         };
     }
