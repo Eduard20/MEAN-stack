@@ -1,5 +1,5 @@
 app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cookies',
-     ($scope, $rootScope, $http, $timeout, $cookies) => {
+     ($scope, $rootScope, $http, $timeout, $cookies, $routeParams) => {
         $rootScope.isLogged = false;
         $scope.formData = [];
         $rootScope.latestWords = [];

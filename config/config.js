@@ -18,7 +18,7 @@ module.exports = {
         service: 'gmail',
         auth: {
             user: 'esimonyan2014@gmail.com',
-            pass: ''
+            pass: 'meka20201824'
         }
     }
 };

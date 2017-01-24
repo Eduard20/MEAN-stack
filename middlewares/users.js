@@ -11,13 +11,15 @@ const users = {
         return token;
     },
 
-    sendActivation : () => {
+    sendActivation : (data) => {
+        console.log(data);
+        let link = `https://wordsrepeat.herokuapp.com/${data.username}`;
         let transporter = nodemailer.createTransport(platformConfigs.mailConf);
         let mailOptions = {
             from: '"Words Repeat "esimonyan2014@gmail.com',
-            to: 'esimonyan@rambler.ru',
+            to: data.username,
             subject: 'Activation Link',
-            html: '<a href="https://fb.com">Link</a>'
+            html: `<a href="${link}">Link</a>`
         };
         transporter.sendMail(mailOptions, (error) => {
             if (error) {
