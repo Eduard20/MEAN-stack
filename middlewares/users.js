@@ -12,11 +12,10 @@ const users = {
     },
 
     sendActivation : (data) => {
-        console.log(data);
         let link = `https://wordsrepeat.herokuapp.com/${data.username}`;
         let transporter = nodemailer.createTransport(platformConfigs.mailConf);
         let mailOptions = {
-            from: '"Words Repeat "esimonyan2014@gmail.com',
+            from : 'Words Repeat',
             to: data.username,
             subject: 'Activation Link',
             html: `<a href="${link}">Link</a>`

@@ -17,8 +17,8 @@ module.exports = {
     mailConf : {
         service: 'gmail',
         auth: {
-            user: 'esimonyan2014@gmail.com',
-            pass: 'meka20201824'
+            user: 'wordsrepeatinfo@gmail.com',
+            pass: 'words2017'
         }
     }
 };
