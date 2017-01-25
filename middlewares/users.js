@@ -12,19 +12,19 @@ const users = {
         return token;
     },
 
-    // encodeUserId : (data) => {
+    // encodeUserId : (views) => {
     //     let hash = crypto.createHmac("sha256", platformConfigs.hashSecret)
-    //         .update(JSON.stringify(data))
+    //         .update(JSON.stringify(views))
     //         .digest("base64");
     //     return hash;
     // }
 
-    // sendActivation : (data) => {
-    //     let link = `https://wordsrepeat.herokuapp.com/${data.username}`;
+    // sendActivation : (views) => {
+    //     let link = `https://wordsrepeat.herokuapp.com/${views.username}`;
     //     let transporter = nodemailer.createTransport(platformConfigs.mailConf);
     //     let mailOptions = {
     //         from : 'Words Repeat',
-    //         to: data.username,
+    //         to: views.username,
     //         subject: 'Activation Link',
     //         html: `<a href="${link}">Link</a>`
     //     };

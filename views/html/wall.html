@@ -1,0 +1,30 @@
+<form class="col s12" name="dateForm">
+    <div class="row">
+        <div class="input-field col s6">
+            <input type="date" class="datepicker" id="date_from">
+            <label for="date_from">Date From</label>
+        </div>
+        <div class="input-field col s6">
+            <input type="date" class="datepicker" id="date_till">
+            <label for="date_till">Date Till</label>
+        </div>
+        <div class="row">
+            <div class="input-field col s10 m10 l6">
+                <button class="btn waves-effect waves-light" type="submit" ng-click="getWords(date_from, date_till)">Fetch</button>
+            </div>
+        </div>
+        <form action="#">
+            <p class="range-field">
+                <input type="range" id="test5" min="0" max="100" />
+            </p>
+        </form>
+    </div>
+</form>
+<script>
+    $(document).ready(() =>{
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
+    });
+</script>

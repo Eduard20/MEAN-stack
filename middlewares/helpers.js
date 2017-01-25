@@ -20,14 +20,6 @@ const helpers = {
         }
     },
 
-    getLatestWords : (req, next) => {
-        let token = req.headers.authorization;
-        let username = jwt.verify(token, platformConfigs.jwtSecret).username;
-        mongoRequests.getLatestWords(username, (result) => {
-            next(result);
-        })
-    },
-
     deleteWord : (req, next) => {
         if (req.body._id) {
             let id = req.body._id;
@@ -48,6 +40,23 @@ const helpers = {
         } else {
             next({error : true, message : "Word is not provided"});
         }
+    },
+
+    getLatestWords : (req, next) => {
+        let token = req.headers.authorization;
+        let username = jwt.verify(token, platformConfigs.jwtSecret).username;
+        mongoRequests.getLatestWords(username, (result) => {
+            next(result);
+        })
+    },
+
+    getWords : (req, next) => {
+        let token = req.headers.authorization;
+        let username = jwt.verify(token, platformConfigs.jwtSecret).username;
+        let dates = req.body;
+        mongoRequests.getWords(username, dates, (result) => {
+            next(result);
+        })
     }
 
 };

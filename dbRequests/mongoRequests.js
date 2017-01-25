@@ -126,21 +126,6 @@ const mongo = {
         })
     },
 
-    getLatestWords : (username, next) => {
-        let query = WordsModel.find({"username" : username}).limit(10).sort({_id:-1});
-        query.exec((err, doc) => {
-            if (err) {
-                next({error : true, message : err})
-            } else {
-                if (doc.length > 0) {
-                    next({error : false, message : doc});
-                } else {
-                    next({error : true, message : "No words for this user"})
-                }
-            }
-        })
-    },
-
     deleteWord : (id, next) => {
         let query = {_id : id};
         WordsModel.findOneAndRemove(query, (err) => {
@@ -161,6 +146,30 @@ const mongo = {
                 }
             }
         })
+    },
+
+    getLatestWords : (username, next) => {
+        let query = WordsModel.find({"username" : username}).limit(10).sort({_id:-1});
+        query.exec((err, doc) => {
+            if (err) {
+                next({error : true, message : err})
+            } else {
+                if (doc.length > 0) {
+                    next({error : false, message : doc});
+                } else {
+                    next({error : true, message : "No words for this user"});
+                }
+            }
+        });
+    },
+
+    getWords : (username, dates, next) => {
+        let query = WordsModel.find({"username" : username},
+            {"time" : {'$gte' : 43523532,'$lte' : 3523532,}}).sort({_id:-1});
+        query.exec((err, doc) => {
+
+        })
+
     }
 
 };

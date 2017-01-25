@@ -11,6 +11,7 @@ const app = express();
 const helpers = require("./middlewares/helpers");
 const routes = require("./routes/routes");
 const auth = require("./middlewares/auth");
+const jade = require("jade");
 process.env.NODE_ENV = platformConfigs.mode;
 
 // MongoDB
@@ -24,7 +25,8 @@ mongoose.connection.on("disconnected", () => {console.log("Mongo default connect
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(__dirname + '/data'));
+app.use(express.static(__dirname + '/views'));
+app.set('view engine', 'jade');
 app.use("/api", auth.isAuth);
 app.use("/", routes);
 
