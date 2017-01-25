@@ -53,8 +53,9 @@ const helpers = {
     getWords : (req, next) => {
         let token = req.headers.authorization;
         let username = jwt.verify(token, platformConfigs.jwtSecret).username;
-        let dates = req.body;
-        mongoRequests.getWords(username, dates, (result) => {
+        let date_from = moment(req.body.from).unix();
+        let date_till = moment(req.body.till).unix();
+        mongoRequests.getWords(username, date_from, date_till, (result) => {
             next(result);
         })
     }

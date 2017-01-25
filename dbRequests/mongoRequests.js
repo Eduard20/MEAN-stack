@@ -163,11 +163,19 @@ const mongo = {
         });
     },
 
-    getWords : (username, dates, next) => {
-        let query = WordsModel.find({"username" : username},
-            {"time" : {'$gte' : 43523532,'$lte' : 3523532,}}).sort({_id:-1});
+    getWords : (username, date_from, date_till, next) => {
+        let query = WordsModel.find({username : username,
+            time : {'$gte' : date_from, '$lte' : date_till}});
         query.exec((err, doc) => {
-
+            if (err) {
+                next({error : true, message : err})
+            } else {
+                if (doc.length > 0) {
+                    next({error : false, message : doc});
+                } else {
+                    next({error : true, message : "No words found"});
+                }
+            }
         })
 
     }
