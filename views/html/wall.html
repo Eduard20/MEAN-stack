@@ -23,9 +23,29 @@
                 <p>{{word.translation}}</p>
             </div>
             <div class="card-action">
-                <a href="#">Edit</a>
-                <a href="#">Delete</a>
+                <a ng-click="openEditWindow(word)" href>Edit</a>
+                <a ng-click="deleteWord(word)" href>Delete</a>
             </div>
         </div>
+    </div>
+</div>
+<div id="edit" class="modal">
+    <div class="modal-content">
+        <form action="" name="editForm">
+            <div class="row">
+                <div class="input-field">
+                    <input id="word" type="text" class="validate" ng-model="edit.word" placeholder="">
+                    <label for="word" class="active">{{edit.word_type}}</label>
+                </div>
+                <div class="input-field">
+                    <input id="translation" type="text" class="validate" ng-model="edit.translation" placeholder="">
+                    <label for="translation" class="active">{{edit.trans_type}}</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="saveChanges(edit)">Save</a>
     </div>
 </div>

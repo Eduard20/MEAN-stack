@@ -46,6 +46,12 @@ const router = express.Router();
         })
     });
 
+    router.post("/api/editWord", (req, res) => {
+        helperFunction.editWord(req, (next) => {
+            res.send(next);
+        })
+    });
+
     router.post("/api/deleteWord", (req, res) => {
         helperFunction.deleteWord(req, (next) => {
             res.send(next);

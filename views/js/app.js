@@ -2,18 +2,34 @@ const app = angular.module('wordsApp', ['ngRoute', 'ngSanitize', 'ngCookies']);
 
 app.config(['$routeProvider', '$locationProvider', '$httpProvider',
     ($routeProvider, $locationProvider, $httpProvider) => {
-        $routeProvider
-            .when("/", {
-                templateUrl: '../html/main.html',
-                controller: 'homeCtrl'
-            })
-            .when("/wall", {
-                templateUrl: '../html/wall.html',
-                controller: 'wordsCtrl'
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
+        if(!isMobile) {
+            $routeProvider
+                .when("/", {
+                    templateUrl: '../html/main.html',
+                    controller: 'homeCtrl'
+                })
+                .when("/wall", {
+                    templateUrl: '../html/wall.html',
+                    controller: 'wordsCtrl'
+                })
+                .otherwise({
+                    redirectTo: '/'
+                });
+        } else {
+            $routeProvider
+                .when("/", {
+                    templateUrl: '../html/mobile/main.html',
+                    controller: 'homeCtrl'
+                })
+                .when("/wall", {
+                    templateUrl: '../html/wall.html',
+                    controller: 'wordsCtrl'
+                })
+                .otherwise({
+                    redirectTo: '/'
+                });
+        }
+
         $httpProvider.interceptors.push(['$q', '$location', '$cookies', '$rootScope', ($q, $location, $cookies, $rootScope) => {
             return {
                 'request': (config) => {

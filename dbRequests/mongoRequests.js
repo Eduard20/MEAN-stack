@@ -126,6 +126,16 @@ const mongo = {
         })
     },
 
+    editWord : (word, next) => {
+        let query = {_id : word._id};
+        WordsModel.findOneAndUpdate(query, word, (err) => {
+            if (err) next({error: true, message: err});
+            else {
+                next({error : false});
+            }
+        });
+    },
+
     deleteWord : (id, next) => {
         let query = {_id : id};
         WordsModel.findOneAndRemove(query, (err) => {

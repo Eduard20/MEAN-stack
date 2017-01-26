@@ -72,6 +72,14 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
             $scope.sWord = null;
             $scope.enableSearch($scope.word);
         };
+
+
+        /// mobile
+
+        $scope.openAddModal = () => {
+            console.log("fuck");
+            $('#add').modal('open');
+        }
     }
 ]);
 

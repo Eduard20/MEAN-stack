@@ -1,0 +1,24 @@
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large red" ng-click="openAddModal()">
+        <i class="large material-icons">add</i>
+    </a>
+</div>
+<div id="add" class="modal">
+    <div class="modal-content">
+        <form name="addForm">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="english" type="text" class="validate" ng-model="word" required>
+                    <label for="english">English</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="translation" type="text" class="validate" ng-model="translation" required>
+                    <label for="translation">translation</label>
+                </div>
+            </div>
+            <div class="input-field">
+                <a class="waves-effect waves-light btn" ng-disabled="addForm.$invalid" ng-click="addWord(word, translation)">Add</a>
+            </div>
+        </form>
+    </div>
+</div>

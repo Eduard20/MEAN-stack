@@ -1,7 +1,7 @@
 
 const moment = require("moment");
 const mongoRequests = require("../dbRequests/mongoRequests");
-const platformConfigs = require("../config/config")
+const platformConfigs = require("../config/config");
 const jwt = require("jsonwebtoken");
 
 const helpers = {
@@ -58,6 +58,16 @@ const helpers = {
         mongoRequests.getWords(username, date_from, date_till, (result) => {
             next(result);
         })
+    },
+
+    editWord : (req, next) => {
+        if (req.body) {
+            mongoRequests.editWord(req.body, (result) => {
+                next(result);
+            })
+        } else {
+            next({error:true, message : "something wrong"});
+        }
     }
 
 };
