@@ -1,5 +1,7 @@
 app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cookies',
      ($scope, $rootScope, $http, $timeout, $cookies) => {
+        $scope.reg_username = null;
+        $scope.reg_password = null;
         $rootScope.isLogged = false;
         $scope.formData = [];
         $rootScope.latestWords = [];
@@ -20,10 +22,10 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
         let token = $cookies.get('token');
         getUserInfo(token);
 
-        $scope.register = (username, password, language, translation) => {
+        $scope.register = (reg_username, reg_password, language, translation) => {
             let Data = {
-                username : username,
-                password : password
+                username : reg_username.toLowerCase(),
+                password : reg_password
             };
             if (language == 1) {
                 Data.language = "EN"
@@ -33,11 +35,8 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
             }
             $http({url : "/register", method : "POST", data : Data}).success( (data) => {
                 if (!data.error) {
-                    $scope.username = "";
-                    $scope.password = "";
-                    $scope.language = "";
-                    $scope.translation = "";
                     $('#modal1').modal('open');
+                    location.reload();
                 } else {
                     $scope.message = data.message;
                     $timeout(() => {
@@ -46,9 +45,13 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                 }
             })
         };
+        $scope.clearFields = () => {
+            $scope.reg_username = null;
+            $scope.reg_password = null;
+        };
         $scope.login = (username, password) => {
             let Data = {
-                username : username,
+                username : username.toLowerCase(),
                 password : password
             };
             $http({url : "/login", method : "POST", data : Data}).success((data) =>{

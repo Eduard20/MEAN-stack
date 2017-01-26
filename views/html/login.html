@@ -15,20 +15,20 @@
                             <form class="col s12 grey-text" name="loginForm">
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="username" type="email" class="validate" required name="username" ng-model="username">
+                                        <input id="username" type="email" class="validate" required name="username" ng-model="login_username">
                                         <label for="username" data-error="wrong" data-success="right">Email</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="password" type="password" class="validate" required="" name="password" ng-model="password">
+                                        <input id="password" type="password" class="validate" required="" name="password" ng-model="login_password">
                                         <label for="password" data-error="wrong" data-success="right">Password</label>
                                     </div>
                                 </div>
                                 <p class="red-text text-darken-2 ng-binding">{{message}}</p>
                                 <div class="row">
                                     <div class="input-field col s10 m10 l6">
-                                        <button class="btn waves-effect waves-light" type="submit" ng-click="login(username, password)" ng-disabled="loginForm.$invalid" disabled="disabled">Login
+                                        <button class="btn waves-effect waves-light" type="submit" ng-click="login(login_username, login_password)" ng-disabled="loginForm.$invalid" disabled="disabled">Login
                                             <i class="material-icons right">send</i>
                                         </button>
                                     </div>
@@ -48,13 +48,13 @@
                             <form class="col s12 grey-text" name="registerForm">
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="username_register" type="email" class="validate" required name="Email" ng-model="username">
+                                        <input id="username_register" type="email" class="validate" required ng-model="reg_username">
                                         <label for="username_register" data-error="wrong" data-success="right">Email</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <input id="password_register" type="password" class="validate" required="" name="password" ng-model="password">
+                                        <input id="password_register" type="password" class="validate" required="" ng-model="reg_password">
                                         <label for="password_register" data-error="wrong" data-success="right">Password</label>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                                 <p class="red-text text-darken-2">{{message}}</p>
                                 <div class="row">
                                     <div class="input-field col s10 m10 l6">
-                                        <button class="btn waves-effect waves-light" type="submit" ng-click="register(username, password, language, translation)" ng-disabled="registerForm.$invalid" disabled="disabled">Register
+                                        <button class="btn waves-effect waves-light" type="submit" ng-click="register(reg_username, reg_password, language, translation)" ng-disabled="registerForm.$invalid" disabled="disabled">Register
                                             <i class="material-icons right">send</i>
                                         </button>
                                     </div>
@@ -94,10 +94,10 @@
             <div class="modal-content">
                 <h4>Congrats</h4>
                 <p>You have been successfully registered</p>
-                <p>Please check your email to activate your account</p>
+                <p>Please check login</p>
             </div>
             <div class="modal-footer">
-                <a class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                <a class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="clearFields()">Close</a>
             </div>
         </div>
     </div>

@@ -4,8 +4,8 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
         $scope.showWords = false;
         $scope.addWord = (word, translation) => {
             let data = {
-                word : word,
-                translation : translation,
+                word : word.toLowerCase(),
+                translation : translation.toLowerCase(),
                 word_type : $rootScope.userInfo.language,
                 trans_type : $rootScope.userInfo.translation
             };
@@ -51,7 +51,7 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
             (undefined != word && word.length > 0) ? $scope.disableSearch = false : $scope.disableSearch = true;
         };
         $scope.searchWord = (word) => {
-            let data = {word : word};
+            let data = {word : word.toLowerCase()};
             $rootScope.httpRequest("searchWord", "POST", data, (data) => {
                 if (!data.error) {
                     $scope.searchData = data.message;

@@ -76,16 +76,19 @@ const router = express.Router();
 
         return !!isMobile;
     };
-    router.get('/files/*', function (req, res) {
+    router.get("/files/*", (req, res) => {
         res.sendFile(req.params[0], {root: __dirname + "/../views/"});
     });
-    router.get('/', function (req, res) {
+    router.get("/", (req, res) => {
         let isMobile = isCallerMobile(req);
         if (isMobile) {
-            res.render('./mobile', {title: 'WordsRepeat', isMobile: true})
+            res.render("./mobile", {title: "WordsRepeat", isMobile: true})
         } else {
-            res.render('./web', {title: 'WordsRepeat', isMobile: false})
+            res.render("./web", {title: "WordsRepeat", isMobile: false})
         }
+    });
+    router.get("/:id", (req, res) => {
+
     });
 
 
