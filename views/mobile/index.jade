@@ -20,4 +20,20 @@ html(lang="en", ng-app='wordsApp', ng-controller='mainCtrl')
         script(type='text/javascript', src='/files/js/homeCtrl.js')
         script(type='text/javascript', src='/files/js/wordsCtrl.js')
         script(type='text/javascript', src='/files/js/profileCtrl.js')
-    body(ng-include="!isLogged && '/files/html/login.html' || '/files/html/mobile/index.html'")
+body
+nav
+    .nav-wrapper
+        a.brand-logo.right(href='', ng-click='logout()') Logout
+        ul#nav-mobile.left
+            li
+                a(href='/') Home
+            li
+                a(href='/wall') Wall
+ng-view
+script.
+    $(document).ready(function () {
+        Materialize.updateTextFields();
+        $('select').material_select();
+        $('ul.tabs').tabs();
+        $('.modal').modal();
+    });

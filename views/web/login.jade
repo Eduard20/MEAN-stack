@@ -1,0 +1,100 @@
+doctype html
+html(lang="en", ng-app='wordsApp', ng-controller='mainCtrl')
+    head
+        meta(http-equiv="X-UA-Compatible" content="IE=edge")
+        meta(name='viewport', content='user-scalable=no, width=device-width, initial-scale=1')
+        meta(name='format-detection', content='telephone=no')
+        title #{title}
+        link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+        link(rel='stylesheet', href='/files/css/materialize.min.css')
+        link(rel='stylesheet', href='/files/css/style.css')
+        script const isMobile = #{isMobile};
+        script(type='text/javascript', src='/files/js/lib/jquery-3.1.1.min.js')
+        script(type='text/javascript', src='/files/js/lib/materialize.min.js')
+        script(type='text/javascript', src='/files/js/lib/angular.min.js')
+        script(type='text/javascript', src='/files/js/lib/angular-cookies.js')
+        script(type='text/javascript', src='/files/js/lib/angular-route.min.js')
+        script(type='text/javascript', src='/files/js/lib/angular-sanitize.min.js')
+        //script(type='text/javascript', src='/files/js/lib/moment.js')
+        script(type='text/javascript', src='/files/js/app.js')
+        script(type='text/javascript', src='/files/js/main.js')
+        script(type='text/javascript', src='/files/js/homeCtrl.js')
+        script(type='text/javascript', src='/files/js/wordsCtrl.js')
+        script(type='text/javascript', src='/files/js/profileCtrl.js')
+    body
+.container
+    .row
+        .col.s12
+            ul.tabs
+                li.tab.col.s6
+                    a.active(href='#login') Login
+                li.tab.col.s6
+                    a(href='#register') Register
+        #login.col.s12
+            .col.s12.m6.offset-m3.login-panel
+                .card.white
+                    .card-content
+                        span.card-title.teal-text.lighten-1 Login
+                        .row
+                            form.col.s12.grey-text(name='loginForm')
+                                .row
+                                    .input-field.col.s12
+                                        input#username.validate(type='email', required='', name='username', ng-model='login_username')
+                                        label(for='username', data-error='wrong', data-success='right') Email
+                                .row
+                                    .input-field.col.s12
+                                        input#password.validate(type='password', required='', name='password', ng-model='login_password')
+                                        label(for='password', data-error='wrong', data-success='right') Password
+                                p.red-text.text-darken-2.ng-binding {{message}}
+                                .row
+                                    .input-field.col.s10.m10.l6
+                                        button.btn.waves-effect.waves-light(type='submit', ng-click='login(login_username, login_password)', ng-disabled='loginForm.$invalid', disabled='disabled')
+                                            | Login
+                                            i.material-icons.right send
+        #register.col.s12
+            .col.s12.m6.offset-m3.login-panel
+                .card.white
+                    .card-content
+                        span.card-title.teal-text.lighten-1 Register
+                        .row
+                            form.col.s12.grey-text(name='registerForm')
+                                .row
+                                    .input-field.col.s12
+                                        input#username_register.validate(type='email', required='', ng-model='reg_username')
+                                        label(for='username_register', data-error='wrong', data-success='right') Email*
+                                .row
+                                    .input-field.col.s12
+                                        input#password_register.validate(type='password', required='', ng-model='reg_password')
+                                        label(for='password_register', data-error='wrong', data-success='right') Password*
+                                .row
+                                    .input-field.col.s12
+                                        select#lang(ng-model='language', required='')
+                                            option(value='', disabled='', selected='') Choose language
+                                            option(value='1') English
+                                        label(for='lang') Main Language
+                                .row
+                                    .input-field.col.s12
+                                        select#translation(ng-model='translation', required='')
+                                            option(value='', disabled='', selected='') Choose Translation language
+                                            option(value='1') Russian
+                                        label(for='translation') Translation Language
+                                p.red-text.text-darken-2 {{message}}
+                                .row
+                                    .input-field.col.s10.m10.l6
+                                        button.btn.waves-effect.waves-light(type='submit', ng-click='register(reg_username, reg_password, language, translation)', ng-disabled='registerForm.$invalid', disabled='disabled')
+                                            | Register
+                                            i.material-icons.right send
+        #modal1.modal
+            .modal-content
+                h4 Congrats
+                p You have been successfully registered
+                p Please check login
+            .modal-footer
+                a.modal-action.modal-close.waves-effect.waves-green.btn-flat(ng-click='reload()') Close
+script.
+    $(document).ready(function() {
+        Materialize.updateTextFields();
+        $('select').material_select();
+        $('ul.tabs').tabs();
+        $('.modal').modal();
+    });

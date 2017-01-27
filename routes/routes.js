@@ -93,18 +93,48 @@ const router = express.Router();
         return !!isMobile;
     };
 
+
+
     router.get("/files/*", (req, res) => {
         res.sendFile(req.params[0], {root: __dirname + "/../views/"});
     });
 
     router.get("/", (req, res) => {
-        let isMobile = isCallerMobile(req);
-        if (isMobile) {
-            res.render("./mobile", {title: "WordsRepeat", isMobile: true})
-        } else {
-            res.render("./web", {title: "WordsRepeat", isMobile: false})
-        }
+        exports.renderIndex(req, res);
     });
+
+    router.get("*", (req, res) => {
+        exports.renderIndex(req, res);
+    });
+
+    exports.renderIndex = function(req, res) {
+        let isMobile = isCallerMobile(req);
+        if (req.headers.cookie && req.headers.cookie.indexOf('token') > -1) {
+            let token = decodeURIComponent(req.headers.cookie.split("token=")[1].split(" ")[0]);
+            mongoRequests.checkToken(token, (result) =>{
+                if (!result.error) {
+                    if (isMobile) {
+                        res.render("./mobile/index.jade", {title: "WordsRepeat", isMobile: true})
+                    } else {
+                        res.render("./web/index.jade", {title: "WordsRepeat", isMobile: false})
+                    }
+                } else {
+                    if (isMobile) {
+                        res.render("./web/login.jade", {title: "WordsRepeat", isMobile: true})
+                    } else {
+                        res.render("./web/login.jade", {title: "WordsRepeat", isMobile: false})
+                    }
+                }
+            });
+        }
+        else {
+            if (isMobile) {
+                res.render("./web/login.jade", {title: "WordsRepeat", isMobile: true})
+            } else {
+                res.render("./web/login.jade", {title: "WordsRepeat", isMobile: false})
+            }
+        }
+    };
 
 
 module.exports = router;

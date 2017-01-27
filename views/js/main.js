@@ -59,6 +59,7 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
                     $cookies.put('token', token);
                     $rootScope.allWords = data.message.words;
                     $rootScope.isLogged = true;
+                    location.reload();
                 } else {
                     $scope.message = data.message;
                     $timeout(() => {
@@ -70,6 +71,7 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
         $scope.logout = () => {
             $cookies.remove('token');
             $rootScope.isLogged = false;
+            location.reload();
         };
         $scope.reload = () => {
             location.reload();
