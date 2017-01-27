@@ -12,7 +12,7 @@ module.exports = {
             }
         }
     },
-    mongoURI : "mongodb://edodb:omega2020@ds013564.mlab.com:13564/heroku_qwz21fc2",
+    mongoURI : "mongodb://edodb:omega@ds117889.mlab.com:17889/heroku_w9zxp99m",
     jwtSecret: "ewvew327fv439@77fveh00@#cvegc",
     hashSecret : "wqbhfjevwfj7341`2^*(34)yeahew&3",
     // mailConf : {
