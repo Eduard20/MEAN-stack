@@ -81,13 +81,20 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
             $rootScope.httpRequest("searchByEmail", "POST", Data, (data) => {
                 if (!data.error) {
                     $scope.foundUser = data.message;
-                    console.log($scope.foundUser);
+                    $timeout(()=>{
+                        $scope.foundUser = null;
+                    }, 5000)
+                } else {
+                    $scope.searchMessage = data.message;
+                    $timeout(()=>{
+                        $scope.searchMessage = null;
+                    }, 2000)
                 }
             })
         };
         $scope.openSearch = () => {
             $('#searchField').modal('open');
-        }
+        };
      }
 ]);
 

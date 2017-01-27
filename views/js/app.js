@@ -29,8 +29,8 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
                     templateUrl: '../html/mobile/wall.html',
                     controller: 'wordsCtrl'
                 })
-                .when("/user/:id", {
-                    templateUrl: '../html/profile.html',
+                .when("/id:id", {
+                    templateUrl: '../html/mobile/profile.html',
                     controller: 'profileCtrl'
                 })
                 .otherwise({

@@ -29,7 +29,7 @@ nav
             li
                 a(href='/') Home
             li
-                a(href='/wall') Wall
+                a(href='/wall') Words
             li
                 a(href='', ng-click='openSearch()') Search
 #searchField.modal.bottom-sheet
@@ -41,9 +41,12 @@ nav
                     label.label-icon(for='search1')
                         i.material-icons(ng-click='searchUsername(searchUser)') search
                     i.material-icons close
-    .row(ng-show='foundUser')
+    div(ng-show='foundUser')
         .col.s12
             a.modal-action.modal-close.waves-effect.waves-green.btn-flat(href='/#/id{{foundUser.id}}') {{foundUser.email}}
+    .row(ng-show='searchMessage')
+        .col.s12.center
+            .red-text {{searchMessage}}
 ng-view
 script.
     $(document).ready(function() {
@@ -52,7 +55,5 @@ script.
         $('select').material_select();
         $('ul.tabs').tabs();
         $('.modal').modal();
-        function close() {
-            $('#searchField').modal('close');
-        }
+
     });

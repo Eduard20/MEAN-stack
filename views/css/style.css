@@ -11,3 +11,6 @@
 #searchWords p {
     padding-bottom: 0;
 }
+.collection .collection-item.avatar {
+    min-height: 0;
+}
