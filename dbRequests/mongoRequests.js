@@ -59,6 +59,8 @@ const mongo = {
                     return;
                 }
                 data.token = usersFunction.generateToken(data);
+                data.userId = usersFunction.createId();
+                console.log(data);
                 callback(null, data);
             },
             (data, callback) => {
@@ -93,7 +95,7 @@ const mongo = {
         })
     },
 
-    getUserInfo: (req, next) => {
+    getUserInfo : (req, next) => {
         let token = req.headers.authorization;
         let query = {"token": token};
         UsersModel.find(query, (err, doc) => {
@@ -111,6 +113,54 @@ const mongo = {
         })
     },
 
+    getProfileInfo : (id, next) => {
+        let query = {userId : id};
+        UsersModel.find(query, (err, doc) => {
+            if (err) {
+                next({error : true, message : err})
+            } else {
+                if (doc.length > 0) {
+                    let data = JSON.stringify(doc[0]);
+                    data = JSON.parse(data);
+                    let query = WordsModel.find({"username" : data.username}).limit(10).sort({_id:-1});
+                    query.exec((err, doc)=>{
+                        if (err) {
+                            next({error : true, message : err})
+                        } else {
+                            if (doc.length > 0) {
+                                next({error : false, message : doc});
+                            } else {
+                                next({error : true, message : "No words for this user"});
+                            }
+                        }
+                    });
+                } else {
+                    next({error : true, message : "Id incorrect"})
+                }
+            }
+        })
+    },
+
+    searchByEmail : (username, next) => {
+      let query = {username : username};
+      UsersModel.find(query, (err, doc) => {
+          if (err) {
+              next({error : true, message : err})
+          } else {
+              if (doc.length > 0) {
+                  let data = JSON.stringify(doc[0]);
+                  data = JSON.parse(data);
+                  let result = {
+                      email : data.username,
+                      id : data.userId
+                  };
+                  next({error : false, message : result});
+              } else {
+                  next({error : true, message : "User was not found"})
+              }
+          }
+      })
+    },
 
     // Words operations
 

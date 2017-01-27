@@ -6,6 +6,10 @@ const router = express.Router();
 
     // User activities
 
+    router.get('/favicon.ico', function(req, res) {
+        res.sendStatus(200);
+    });
+
     router.post("/login", (req, res) => {
         if (undefined != req.body.username) {
             mongoRequests.login(req, (next) => {
@@ -30,6 +34,18 @@ const router = express.Router();
         mongoRequests.getUserInfo(req, (next) => {
             res.send(next);
         });
+    });
+
+    router.post("/api/searchByEmail", (req, res) => {
+        helperFunction.searchByEmail(req, (next) => {
+            res.send(next);
+        });
+    });
+
+    router.post("/api/getProfileInfo", (req, res) => {
+        helperFunction.getProfileInfo(req, (next) => {
+            res.send(next);
+        })
     });
 
     // Words activities
@@ -76,9 +92,11 @@ const router = express.Router();
 
         return !!isMobile;
     };
+
     router.get("/files/*", (req, res) => {
         res.sendFile(req.params[0], {root: __dirname + "/../views/"});
     });
+
     router.get("/", (req, res) => {
         let isMobile = isCallerMobile(req);
         if (isMobile) {
@@ -86,9 +104,6 @@ const router = express.Router();
         } else {
             res.render("./web", {title: "WordsRepeat", isMobile: false})
         }
-    });
-    router.get("/:id", (req, res) => {
-
     });
 
 

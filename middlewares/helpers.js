@@ -68,6 +68,26 @@ const helpers = {
         } else {
             next({error:true, message : "something wrong"});
         }
+    },
+
+    getProfileInfo : (req, next) => {
+        if (req.body) {
+            mongoRequests.getProfileInfo(req.body.data, (result) => {
+                next(result);
+            })
+        } else {
+            next({error:true, message : "data not provided"})
+        }
+    },
+
+    searchByEmail : (req, next) => {
+        if (req.body) {
+            mongoRequests.searchByEmail(req.body.username, (result) => {
+                next(result);
+            })
+        } else {
+            next({error:true, message : "data not provided"})
+        }
     }
 
 };

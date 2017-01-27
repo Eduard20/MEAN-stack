@@ -8,6 +8,10 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
                     templateUrl: '../html/main.html',
                     controller: 'homeCtrl'
                 })
+                .when("/id:id", {
+                    templateUrl: '../html/profile.html',
+                    controller: 'profileCtrl'
+                })
                 .when("/wall", {
                     templateUrl: '../html/wall.html',
                     controller: 'wordsCtrl'
@@ -24,6 +28,10 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
                 .when("/wall", {
                     templateUrl: '../html/mobile/wall.html',
                     controller: 'wordsCtrl'
+                })
+                .when("/user/:id", {
+                    templateUrl: '../html/profile.html',
+                    controller: 'profileCtrl'
                 })
                 .otherwise({
                     redirectTo: '/'

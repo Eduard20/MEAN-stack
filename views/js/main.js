@@ -36,7 +36,6 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
             $http({url : "/register", method : "POST", data : Data}).success( (data) => {
                 if (!data.error) {
                     $('#modal1').modal('open');
-                    location.reload();
                 } else {
                     $scope.message = data.message;
                     $timeout(() => {
@@ -72,6 +71,21 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
             $cookies.remove('token');
             $rootScope.isLogged = false;
         };
+        $scope.reload = () => {
+            location.reload();
+        };
+        $scope.searchUsername = (username) => {
+            let Data = {username};
+            $rootScope.httpRequest("searchByEmail", "POST", Data, (data) => {
+                if (!data.error) {
+                    $scope.foundUser = data.message;
+                    console.log($scope.foundUser);
+                }
+            })
+        };
+        $scope.openSearch = () => {
+            $('#searchField').modal('open');
+        }
      }
 ]);
 

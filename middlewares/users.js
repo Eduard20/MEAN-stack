@@ -1,8 +1,9 @@
 
 // const nodemailer = require('@nodemailer/pro');
-// const crypto = require("crypto");
+const shortid = require("shortid");
 const jwt = require("jsonwebtoken");
 const platformConfigs = require("../config/config");
+
 const users = {
 
     generateToken : (data) => {
@@ -18,6 +19,10 @@ const users = {
     //         .digest("base64");
     //     return hash;
     // }
+
+    createId : () => {
+        return shortid.generate();
+    }
 
     // sendActivation : (views) => {
     //     let link = `https://wordsrepeat.herokuapp.com/${views.username}`;

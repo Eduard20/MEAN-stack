@@ -1,5 +1,5 @@
-app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cookies', '$routeParams',
-    ($scope, $rootScope, $http, $timeout, $routeParams) => {
+app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout',
+    ($scope, $rootScope, $http, $timeout) => {
         $scope.formData = [];
         $scope.showWords = false;
         $scope.addWord = (word, translation) => {
