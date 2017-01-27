@@ -22,7 +22,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
                     controller: 'homeCtrl'
                 })
                 .when("/wall", {
-                    templateUrl: '../html/wall.html',
+                    templateUrl: '../html/mobile/wall.html',
                     controller: 'wordsCtrl'
                 })
                 .otherwise({

@@ -1,10 +1,10 @@
 <form class="col s12" name="dateForm">
     <div class="row">
-        <div class="input-field col s2">
+        <div class="input-field col s6">
             <input type="date" id="date_from" ng-model="date_from">
             <label for="date_from"></label>
         </div>
-        <div class="input-field col s2">
+        <div class="input-field col s6">
             <input type="date" id="date_till" ng-model="date_till">
             <label for="date_till"></label>
         </div>
@@ -16,7 +16,7 @@
     </div>
 </form>
 <div class="row">
-    <div class="col s6 m4 l3" ng-repeat="word in allWords">
+    <div class="col s12" ng-repeat="word in allWords">
         <div class="card blue-grey darken-1">
             <div class="card-content white-text">
                 <span class="card-title">{{word.word}}</span>

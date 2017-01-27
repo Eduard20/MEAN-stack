@@ -77,7 +77,6 @@ app.controller("homeCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
         /// mobile
 
         $scope.openAddModal = () => {
-            console.log("fuck");
             $('#add').modal('open');
         }
     }
