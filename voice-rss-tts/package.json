@@ -1,0 +1,26 @@
+{
+  "name": "voice-rss-tts",
+  "version": "0.0.1",
+  "description": "Provides access to text-to-speech API of Voice RSS",
+  "main": "index.js",
+  "dependencies": {
+    "request": "~2.72.0"
+  },
+  "keywords": [
+    "text",
+    "to",
+    "speech",
+    "tts",
+    "api",
+    "voice",
+    "online",
+    "api"
+  ],
+  "author": {
+    "name": "Voice RSS",
+    "email": "support@voicerss.org",
+    "website": "http://www.voicerss.org"
+  },
+  "license": "MIT",
+  "readmeFilename": "README"
+}

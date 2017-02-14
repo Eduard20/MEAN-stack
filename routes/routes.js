@@ -80,6 +80,12 @@ const router = express.Router();
         })
     });
 
+    router.post("/api/convertSpeech", (req, res) => {
+        helperFunction.convertSpeech(req, (next) => {
+            res.send(next);
+        })
+    });
+
     router.post("/api/getWords", (req, res) => {
         helperFunction.getWords(req, (next) => {
             res.send(next);

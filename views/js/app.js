@@ -1,7 +1,7 @@
-const app = angular.module('wordsApp', ['ngRoute', 'ngSanitize', 'ngCookies']);
+const app = angular.module('wordsApp', ['ngRoute', 'ngSanitize', 'ngCookies', 'voiceRss', 'ngAudio']);
 
-app.config(['$routeProvider', '$locationProvider', '$httpProvider',
-    ($routeProvider, $locationProvider, $httpProvider) => {
+app.config(['$routeProvider', '$locationProvider', '$httpProvider','ttsProvider',
+    ($routeProvider, $locationProvider, $httpProvider, ttsProvider) => {
         if(!isMobile) {
             $routeProvider
                 .when("/", {
@@ -41,7 +41,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
                     redirectTo: '/'
                 });
         }
-
+        ttsProvider.setSettings({ key: '967aef489038401089b90983f7df7f74' });
         $httpProvider.interceptors.push(['$q', '$location', '$cookies', '$rootScope', ($q, $location, $cookies, $rootScope) => {
             return {
                 'request': (config) => {
@@ -75,8 +75,8 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
     }
 ]);
 
-app.run(['$rootScope', '$timeout', '$http','$cookies',
-    ($rootScope, $timeout, $http, $cookies) => {
+app.run(['$rootScope', '$timeout', '$http','$cookies','tts',
+    ($rootScope, $timeout, $http, $cookies, tts) => {
         $rootScope.$on("$routeChangeStart", function () {
             if(!$cookies.get('token')){
                 $rootScope.isLogged = false;
@@ -100,5 +100,15 @@ app.run(['$rootScope', '$timeout', '$http','$cookies',
                 }
             }).success(callback);
         };
+        $rootScope.convertToSpeech = (word) => {
+            tts.speech({
+                src: word.word,
+                hl: 'en-us',
+                r: 0,
+                c: 'mp3',
+                f: '44khz_16bit_stereo',
+                ssml: false
+            });
+        }
     }
 ]);

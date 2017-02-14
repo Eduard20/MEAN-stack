@@ -95,6 +95,16 @@ app.controller("mainCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cooki
         $scope.openSearch = () => {
             $('#searchField').modal('open');
         };
+
+        // $scope.convertToSpeech = (word) => {
+        //     let Data = {word : word.word};
+        //     $rootScope.httpRequest("convertSpeech", "POST", Data, (data)=>{
+        //         $scope.options = {
+        //             playlist: data,
+        //             loop: true
+        //         };
+        //     });
+        // };
      }
 ]);
 

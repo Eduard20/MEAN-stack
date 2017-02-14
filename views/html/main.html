@@ -85,6 +85,7 @@
         </div>
     </div>
     <div class="col s12 m6 center">
+        <!--<div audio options="options"> </div>-->
         <div class="preloader-wrapper active" style="margin-top: 50px" ng-show="!showWords">
             <div class="spinner-layer spinner-blue-only">
                 <div class="circle-clipper left">
@@ -117,6 +118,9 @@
                                         <tr ng-repeat="word in latestWords">
                                             <td>{{word.word}}</td>
                                             <td>{{word.translation}}</td>
+                                            <td>
+                                                <i class="material-icons" ng-click="convertToSpeech(word)">volume_up</i>
+                                            </td>
                                             <td>
                                                 <a class="btn-floating btn-small waves-effect waves-light red" ng-click="deleteWord(word)"><i class="material-icons">delete</i></a>
                                             </td>

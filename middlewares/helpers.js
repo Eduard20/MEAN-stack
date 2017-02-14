@@ -3,6 +3,7 @@ const moment = require("moment");
 const mongoRequests = require("../dbRequests/mongoRequests");
 const platformConfigs = require("../config/config");
 const jwt = require("jsonwebtoken");
+const tts = require('../voice-rss-tts/index');
 
 const helpers = {
 
@@ -88,6 +89,22 @@ const helpers = {
         } else {
             next({error:true, message : "data not provided"})
         }
+    },
+
+    convertSpeech : (req, next) => {
+        tts.speech({
+            key: platformConfigs.voiceKey,
+            hl: 'en-us',
+            src: req.body.word,
+            r: 0,
+            c: 'mp3',
+            f: '44khz_16bit_stereo',
+            ssml: false,
+            b64: false,
+            callback : function (error, content) {
+                next(error || content);
+            }
+        });
     }
 
 };
