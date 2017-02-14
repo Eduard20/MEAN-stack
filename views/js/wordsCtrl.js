@@ -12,6 +12,7 @@ app.controller("wordsCtrl", ['$scope', '$rootScope', '$http', '$timeout', '$cook
                 if (!data.error) {
                     $scope.allWords = data.message;
                 } else {
+                    $scope.allWords = [];
                     $scope.message = data.message;
                     $timeout(()=>{
                         $scope.message = null;

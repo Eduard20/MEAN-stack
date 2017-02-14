@@ -16,6 +16,10 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider',
                     templateUrl: '../html/wall.html',
                     controller: 'wordsCtrl'
                 })
+                .when("/tests", {
+                    templateUrl: '../html/tests.html',
+                    controller: 'testsCtrl'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });

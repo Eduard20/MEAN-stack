@@ -9,13 +9,12 @@ html(lang="en", ng-app='wordsApp', ng-controller='mainCtrl')
         link(rel='stylesheet', href='/files/css/materialize.min.css')
         link(rel='stylesheet', href='/files/css/style.css')
         script const isMobile = #{isMobile};
+        script(type='text/javascript', src='/files/js/lib/angular.min.js')
         script(type='text/javascript', src='/files/js/lib/jquery-3.1.1.min.js')
         script(type='text/javascript', src='/files/js/lib/materialize.min.js')
-        script(type='text/javascript', src='/files/js/lib/angular.min.js')
         script(type='text/javascript', src='/files/js/lib/angular-cookies.js')
         script(type='text/javascript', src='/files/js/lib/angular-route.min.js')
         script(type='text/javascript', src='/files/js/lib/angular-sanitize.min.js')
-        //script(type='text/javascript', src='/files/js/lib/moment.js')
         script(type='text/javascript', src='/files/js/app.js')
         script(type='text/javascript', src='/files/js/main.js')
         script(type='text/javascript', src='/files/js/homeCtrl.js')
@@ -45,7 +44,7 @@ html(lang="en", ng-app='wordsApp', ng-controller='mainCtrl')
                                     .input-field.col.s12
                                         input#password.validate(type='password', required='', name='password', ng-model='login_password')
                                         label(for='password', data-error='wrong', data-success='right') Password
-                                p.red-text.text-darken-2.ng-binding {{message}}
+                                p.red-text.text-darken-2 {{message}}
                                 .row
                                     .input-field.col.s10.m10.l6
                                         button.btn.waves-effect.waves-light(type='submit', ng-click='login(login_username, login_password)', ng-disabled='loginForm.$invalid', disabled='disabled')

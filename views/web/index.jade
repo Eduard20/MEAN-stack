@@ -21,6 +21,7 @@ html(lang="en", ng-app='wordsApp', ng-controller='mainCtrl')
         script(type='text/javascript', src='/files/js/homeCtrl.js')
         script(type='text/javascript', src='/files/js/wordsCtrl.js')
         script(type='text/javascript', src='/files/js/profileCtrl.js')
+        script(type='text/javascript', src='/files/js/testsCtrl.js')
 body
 nav
     .nav-wrapper
@@ -32,6 +33,8 @@ nav
                 a(href='/wall') Words
             li
                 a(href='', ng-click='openSearch()') Search
+            li
+                a(href = '/tests') Tests
 #searchField.modal.bottom-sheet
     nav
         .nav-wrapper
